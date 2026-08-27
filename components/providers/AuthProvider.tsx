@@ -1,5 +1,5 @@
-import { COLLECTIONS } from "@/lib/firebase/constants";
 "use client";
+import { COLLECTIONS } from "@/lib/firebase/constants";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
