@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-sans",
+  subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-serif",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Converso",
-  description: "Real-time AI Teaching Platform",
+  title: "KP Elite Golf Training | Master Your Swing, Lower Your Handicap",
+  description:
+    "The elite PGA-caliber hybrid coaching system combining high-speed biomechanics, personalized 1-on-1 mastery, and 24/7 AI voice coaching.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -20,12 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${bricolage.variable} antialiased`}>
-        <ClerkProvider appearance={{ variables: { colorPrimary: '#fe5933' }} }>
-          <Navbar />
+    <html lang="en" className="dark scroll-smooth">
+      <body
+        className={`${plusJakarta.variable} ${playfair.variable} font-sans antialiased bg-[#0D1117] text-white`}
+      >
+        <AuthProvider>
           {children}
-        </ClerkProvider>
+        </AuthProvider>
       </body>
     </html>
   );

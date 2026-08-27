@@ -1,57 +1,65 @@
-import {getCompanion} from "@/lib/actions/companion.actions";
-import {currentUser} from "@clerk/nextjs/server";
-import {redirect} from "next/navigation";
-import {getSubjectColor} from "@/lib/utils";
+import { getCompanion } from "@/lib/actions/companion.actions";
+import { redirect } from "next/navigation";
+import { getSubjectColor } from "@/lib/utils";
 import Image from "next/image";
 import CompanionComponent from "@/components/CompanionComponent";
 
 interface CompanionSessionPageProps {
-    params: Promise<{ id: string}>;
+  params: Promise<{ id: string }>;
 }
 
 const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
-    const { id } = await params;
-    const companion = await getCompanion(id);
-    const user = await currentUser();
+  const { id } = await params;
+  const companion = await getCompanion(id);
 
-    const { name, subject, title, topic, duration } = companion;
+  const { name, subject, topic, duration } = companion;
 
-    if(!user) redirect('/sign-in');
-    if(!name) redirect('/companions')
+  if (!name) redirect("/companions");
 
-    return (
-        <main>
-            <article className="flex rounded-border justify-between p-6 max-md:flex-col">
-                <div className="flex items-center gap-2">
-                    <div className="size-[72px] flex items-center justify-center rounded-lg max-md:hidden" style={{ backgroundColor: getSubjectColor(subject)}}>
-                        <Image src={`/icons/${subject}.svg`} alt={subject} width={35} height={35} />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                            <p className="font-bold text-2xl">
-                                {name}
-                            </p>
-                            <div className="subject-badge max-sm:hidden">
-                                {subject}
-                            </div>
-                        </div>
-                        <p className="text-lg">{topic}</p>
-                    </div>
-                </div>
-                <div className="items-start text-2xl max-md:hidden">
-                    {duration} minutes
-                </div>
-            </article>
-
-            <CompanionComponent
-                {...companion}
-                companionId={id}
-                userName={user.firstName!}
-                userImage={user.imageUrl!}
+  return (
+    <main className="max-w-4xl mx-auto py-6 px-4 space-y-6">
+      <article className="flex rounded-3xl bg-[#161B22] border border-[#30363D] justify-between p-6 max-md:flex-col items-center shadow-xl">
+        <div className="flex items-center gap-4">
+          <div
+            className="size-16 flex items-center justify-center rounded-2xl max-md:hidden border border-[#D4AF37]/40 shadow-md"
+            style={{ backgroundColor: getSubjectColor(subject) }}
+          >
+            <Image
+              src={`/icons/${subject}.svg`}
+              alt={subject}
+              width={32}
+              height={32}
+              onError={(e) => {
+                // fallback if svg icon doesn't exist
+              }}
             />
-        </main>
-    )
-}
+          </div>
 
-export default CompanionSession
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <p className="font-serif font-bold text-xl sm:text-2xl text-white">
+                {name}
+              </p>
+              <div className="px-2.5 py-0.5 rounded-full bg-[#154734] border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] font-mono font-bold uppercase">
+                {subject}
+              </div>
+            </div>
+            <p className="text-xs text-gray-300">{topic}</p>
+          </div>
+        </div>
+        <div className="text-sm font-mono font-bold text-[#D4AF37] bg-[#0D1117] px-3 py-1.5 rounded-xl border border-[#30363D] max-md:hidden">
+          {duration || 30} mins
+        </div>
+      </article>
+
+      <CompanionComponent
+        {...companion}
+        companionId={id}
+        userName={"Tour Golfer"}
+        userImage={"/coaches/coach-1.jpg"}
+      />
+    </main>
+  );
+};
+
+export default CompanionSession;

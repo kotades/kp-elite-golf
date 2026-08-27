@@ -1,25 +1,29 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { subjectsColors, voices } from "@/constants";
+import { subjectsColors, voices, aiGolfPersonas } from "@/constants";
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getSubjectColor = (subject: string) => {
-  return subjectsColors[subject as keyof typeof subjectsColors];
+export const getSubjectColor = (subject: string): string => {
+  return subjectsColors[subject] || "#0B2B1F";
 };
 
-export const configureAssistant = (voice: string, style: string) => {
-  const voiceId = voices[voice as keyof typeof voices][
-          style as keyof (typeof voices)[keyof typeof voices]
-          ] || "sarah";
+export const configureAssistant = (voice: string, style: string, coachPersonaId?: string): CreateAssistantDTO => {
+  const selectedPersona = aiGolfPersonas.find((p) => p.id === coachPersonaId) || aiGolfPersonas[0];
+  
+  const voiceId =
+    selectedPersona?.voiceId ||
+    voices[voice as keyof typeof voices]?.[
+      style as keyof (typeof voices)[keyof typeof voices]
+    ] ||
+    "2BJW5coyhAzSr8STdHbE";
 
   const vapiAssistant: CreateAssistantDTO = {
-    name: "Companion",
-    firstMessage:
-        "Hello, let's start the session. Today we'll be talking about {{topic}}.",
+    name: selectedPersona.name || "KP Elite Golf Coach",
+    firstMessage: selectedPersona.welcomeMessage || "Welcome to KP Elite Golf Training. I am your PGA AI Coach. What are we working on today?",
     transcriber: {
       provider: "deepgram",
       model: "nova-3",
@@ -28,34 +32,33 @@ export const configureAssistant = (voice: string, style: string) => {
     voice: {
       provider: "11labs",
       voiceId: voiceId,
-      stability: 0.4,
-      similarityBoost: 0.8,
+      stability: 0.45,
+      similarityBoost: 0.85,
       speed: 1,
-      style: 0.5,
+      style: 0.4,
       useSpeakerBoost: true,
     },
     model: {
       provider: "openai",
-      model: "gpt-4",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: `You are a highly knowledgeable tutor teaching a real-time voice session with a student. Your goal is to teach the student about the topic and subject.
+          content: `${selectedPersona.prompt}
 
-                    Tutor Guidelines:
-                    Stick to the given topic - {{ topic }} and subject - {{ subject }} and teach the student about it.
-                    Keep the conversation flowing smoothly while maintaining control.
-                    From time to time make sure that the student is following you and understands you.
-                    Break down the topic into smaller parts and teach the student one part at a time.
-                    Keep your style of conversation {{ style }}.
-                    Keep your responses short, like in a real voice conversation.
-                    Do not include any special characters in your responses - this is a voice conversation.
-              `,
+          Domain Guidelines:
+          1. You are coaching golf at the prestigious KP Elite Golf Academy.
+          2. Topics include: Full swing biomechanics, kinematic sequence, shallowing, lag, clubface angle, low-point control, chipping, pitching, putting, bunker play, DECADE course management, and mental preparation.
+          3. Keep responses conversational, authoritative yet friendly, concise (1-3 sentences), and ideal for a golfer standing on the practice tee or green.
+          4. When correcting a fault (e.g. slice, hook, chunk, thin), diagnose the root cause (face-to-path relationship or low point) and give 1 memorable drill.
+          5. Avoid markdown or special symbols in spoken responses.
+          `,
         },
       ],
     },
-    clientMessages: [],
-    serverMessages: [],
+    clientMessages: [] as any,
+    serverMessages: [] as any,
   };
+
   return vapiAssistant;
 };

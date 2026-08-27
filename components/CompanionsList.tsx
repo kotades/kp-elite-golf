@@ -14,7 +14,7 @@ import Image from "next/image";
 
 interface CompanionsListProps {
     title: string;
-    companions?: Companion[];
+    companions?: any[];
     classNames?: string;
 }
 

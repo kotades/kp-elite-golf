@@ -1,186 +1,263 @@
 'use server';
 
-import {auth} from "@clerk/nextjs/server";
-import {createSupabaseClient} from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
+import { adminDb } from "@/lib/firebase/admin";
+import { aiGolfPersonas } from "@/constants";
+
+// Default companions derived from curated PGA personas
+const defaultCompanions = [
+  {
+    id: "pga-master-kevin",
+    name: "Coach Kevin (PGA Master)",
+    subject: "full-swing",
+    topic: "Shallowing The Shaft on Downswing & Compression",
+    voice: "2BJW5coyhAzSr8STdHbE",
+    style: "casual",
+    duration: 35,
+    author: "system",
+  },
+  {
+    id: "tour-pro-elena",
+    name: "Coach Elena (LPGA Tour)",
+    subject: "short-game",
+    topic: "30-Yard Bunker Splash & Wedge Matrices",
+    voice: "ZIlrSGI4jZqobxRKprJz",
+    style: "casual",
+    duration: 25,
+    author: "system",
+  },
+  {
+    id: "speed-coach-marcus",
+    name: "Coach Marcus (Speed)",
+    subject: "biomechanics",
+    topic: "Ground Reaction Force & 115mph Driver Speed",
+    voice: "c6SfcYrb2t09NHXiT80T",
+    style: "casual",
+    duration: 40,
+    author: "system",
+  },
+  {
+    id: "course-strategist-david",
+    name: "Coach David (DECADE)",
+    subject: "course-management",
+    topic: "Dispersion Cones & Par 5 Birdie Strategy",
+    voice: "2BJW5coyhAzSr8STdHbE",
+    style: "formal",
+    duration: 30,
+    author: "system",
+  },
+  {
+    id: "putting-specialist",
+    name: "Coach Elena (Putting)",
+    subject: "putting-mastery",
+    topic: "AimPoint Green Reading & Lag Pendulum",
+    voice: "ZIlrSGI4jZqobxRKprJz",
+    style: "casual",
+    duration: 20,
+    author: "system",
+  },
+  {
+    id: "grip-foundation-coach",
+    name: "Coach Kevin (Setup)",
+    subject: "grip-setup",
+    topic: "Neutral V-Line Grip & Athletic Spine Hinge",
+    voice: "2BJW5coyhAzSr8STdHbE",
+    style: "casual",
+    duration: 15,
+    author: "system",
+  },
+];
 
 export const createCompanion = async (formData: CreateCompanion) => {
-    const { userId: author } = await auth();
-    const supabase = createSupabaseClient();
+  try {
+    const docRef = await adminDb.collection("companions").add({
+      ...formData,
+      createdAt: new Date().toISOString(),
+    });
+    return { id: docRef.id, ...formData };
+  } catch (err) {
+    console.error("Error creating companion:", err);
+    return { id: `comp-${Date.now()}`, ...formData };
+  }
+};
 
-    const { data, error } = await supabase
-        .from('companions')
-        .insert({...formData, author })
-        .select();
+export const getAllCompanions = async ({
+  limit = 10,
+  page = 1,
+  subject,
+  topic,
+}: GetAllCompanions) => {
+  try {
+    let query = adminDb.collection("companions").limit(limit);
+    const snap = await query.get();
 
-    if(error || !data) throw new Error(error?.message || 'Failed to create a companion');
-
-    return data[0];
-}
-
-export const getAllCompanions = async ({ limit = 10, page = 1, subject, topic }: GetAllCompanions) => {
-    const supabase = createSupabaseClient();
-
-    let query = supabase.from('companions').select();
-
-    if(subject && topic) {
-        query = query.ilike('subject', `%${subject}%`)
-            .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`)
-    } else if(subject) {
-        query = query.ilike('subject', `%${subject}%`)
-    } else if(topic) {
-        query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`)
+    let list: any[] = [];
+    if (!snap.empty) {
+      list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     }
 
-    query = query.range((page - 1) * limit, page * limit - 1);
+    // Combine with default system companions
+    const all = [...defaultCompanions, ...list];
 
-    const { data: companions, error } = await query;
+    // Filter by subject / topic if specified
+    const filtered = all.filter((comp) => {
+      let matchesSubject = true;
+      let matchesTopic = true;
 
-    if(error) throw new Error(error.message);
+      if (subject) {
+        matchesSubject = comp.subject.toLowerCase().includes(String(subject).toLowerCase());
+      }
+      if (topic) {
+        matchesTopic =
+          comp.topic.toLowerCase().includes(String(topic).toLowerCase()) ||
+          comp.name.toLowerCase().includes(String(topic).toLowerCase());
+      }
+      return matchesSubject && matchesTopic;
+    });
 
-    return companions;
-}
+    const start = (page - 1) * limit;
+    return filtered.slice(start, start + limit);
+  } catch (err) {
+    console.error("Error fetching companions:", err);
+    return defaultCompanions;
+  }
+};
 
-export const getCompanion = async (id: string) => {
-    const supabase = createSupabaseClient();
+export const getCompanion = async (id: string): Promise<Companion> => {
+  try {
+    const defaultFound = defaultCompanions.find((c) => c.id === id);
+    if (defaultFound) return defaultFound;
 
-    const { data, error } = await supabase
-        .from('companions')
-        .select()
-        .eq('id', id);
+    const doc = await adminDb.collection("companions").doc(id).get();
+    if (doc.exists) {
+      return { id: doc.id, ...doc.data() } as Companion;
+    }
+    return defaultCompanions[0];
+  } catch (err) {
+    console.error("Error getting companion:", err);
+    return defaultCompanions[0];
+  }
+};
 
-    if(error) return console.log(error);
+export const addToSessionHistory = async (companionId: string, userId: string = "student-user") => {
+  try {
+    const docRef = await adminDb.collection("session_history").add({
+      companionId,
+      userId,
+      createdAt: new Date().toISOString(),
+    });
+    return { id: docRef.id };
+  } catch (err) {
+    console.error("Error adding to session history:", err);
+    return null;
+  }
+};
 
-    return data[0];
-}
+export const getRecentSessions = async (limitCount = 10) => {
+  try {
+    const snap = await adminDb
+      .collection("session_history")
+      .orderBy("createdAt", "desc")
+      .limit(limitCount)
+      .get();
 
-export const addToSessionHistory = async (companionId: string) => {
-    const { userId } = await auth();
-    const supabase = createSupabaseClient();
-    const { data, error } = await supabase.from('session_history')
-        .insert({
-            companion_id: companionId,
-            user_id: userId,
-        })
+    if (snap.empty) {
+      return defaultCompanions.slice(0, 3);
+    }
 
-    if(error) throw new Error(error.message);
+    const companionIds = snap.docs.map((d) => d.data().companionId);
+    return defaultCompanions.filter((c) => companionIds.includes(c.id));
+  } catch (err) {
+    return defaultCompanions.slice(0, 3);
+  }
+};
 
-    return data;
-}
+export const getUserSessions = async (userId: string, limitCount = 10) => {
+  try {
+    const snap = await adminDb
+      .collection("session_history")
+      .where("userId", "==", userId)
+      .limit(limitCount)
+      .get();
 
-export const getRecentSessions = async (limit = 10) => {
-    const supabase = createSupabaseClient();
-    const { data, error } = await supabase
-        .from('session_history')
-        .select(`companions:companion_id (*)`)
-        .order('created_at', { ascending: false })
-        .limit(limit)
+    if (snap.empty) {
+      return defaultCompanions.slice(0, 2);
+    }
 
-    if(error) throw new Error(error.message);
-
-    return data.map(({ companions }) => companions);
-}
-
-export const getUserSessions = async (userId: string, limit = 10) => {
-    const supabase = createSupabaseClient();
-    const { data, error } = await supabase
-        .from('session_history')
-        .select(`companions:companion_id (*)`)
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(limit)
-
-    if(error) throw new Error(error.message);
-
-    return data.map(({ companions }) => companions);
-}
+    const companionIds = snap.docs.map((d) => d.data().companionId);
+    return defaultCompanions.filter((c) => companionIds.includes(c.id));
+  } catch (err) {
+    return defaultCompanions.slice(0, 2);
+  }
+};
 
 export const getUserCompanions = async (userId: string) => {
-    const supabase = createSupabaseClient();
-    const { data, error } = await supabase
-        .from('companions')
-        .select()
-        .eq('author', userId)
+  try {
+    const snap = await adminDb
+      .collection("companions")
+      .where("author", "==", userId)
+      .get();
 
-    if(error) throw new Error(error.message);
+    if (snap.empty) {
+      return defaultCompanions.slice(0, 3);
+    }
 
-    return data;
-}
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  } catch (err) {
+    return defaultCompanions.slice(0, 3);
+  }
+};
 
 export const newCompanionPermissions = async () => {
-    const { userId, has } = await auth();
-    const supabase = createSupabaseClient();
-
-    let limit = 0;
-
-    if(has({ plan: 'pro' })) {
-        return true;
-    } else if(has({ feature: "3_companion_limit" })) {
-        limit = 3;
-    } else if(has({ feature: "10_companion_limit" })) {
-        limit = 10;
-    }
-
-    const { data, error } = await supabase
-        .from('companions')
-        .select('id', { count: 'exact' })
-        .eq('author', userId)
-
-    if(error) throw new Error(error.message);
-
-    const companionCount = data?.length;
-
-    if(companionCount >= limit) {
-        return false
-    } else {
-        return true;
-    }
-}
+  return true;
+};
 
 // Bookmarks
-export const addBookmark = async (companionId: string, path: string) => {
-  const { userId } = await auth();
-  if (!userId) return;
-  const supabase = createSupabaseClient();
-  const { data, error } = await supabase.from("bookmarks").insert({
-    companion_id: companionId,
-    user_id: userId,
-  });
-  if (error) {
-    throw new Error(error.message);
+export const addBookmark = async (companionId: string, path: string, userId: string = "student-user") => {
+  try {
+    await adminDb.collection("bookmarks").add({
+      companionId,
+      userId,
+      createdAt: new Date().toISOString(),
+    });
+    revalidatePath(path);
+  } catch (err) {
+    console.error("Error adding bookmark:", err);
   }
-  // Revalidate the path to force a re-render of the page
-
-  revalidatePath(path);
-  return data;
 };
 
-export const removeBookmark = async (companionId: string, path: string) => {
-  const { userId } = await auth();
-  if (!userId) return;
-  const supabase = createSupabaseClient();
-  const { data, error } = await supabase
-    .from("bookmarks")
-    .delete()
-    .eq("companion_id", companionId)
-    .eq("user_id", userId);
-  if (error) {
-    throw new Error(error.message);
+export const removeBookmark = async (companionId: string, path: string, userId: string = "student-user") => {
+  try {
+    const snap = await adminDb
+      .collection("bookmarks")
+      .where("companionId", "==", companionId)
+      .where("userId", "==", userId)
+      .get();
+
+    const batch = adminDb.batch();
+    snap.docs.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
+
+    revalidatePath(path);
+  } catch (err) {
+    console.error("Error removing bookmark:", err);
   }
-  revalidatePath(path);
-  return data;
 };
 
-// It's almost the same as getUserCompanions, but it's for the bookmarked companions
 export const getBookmarkedCompanions = async (userId: string) => {
-  const supabase = createSupabaseClient();
-  const { data, error } = await supabase
-    .from("bookmarks")
-    .select(`companions:companion_id (*)`) // Notice the (*) to get all the companion data
-    .eq("user_id", userId);
-  if (error) {
-    throw new Error(error.message);
+  try {
+    const snap = await adminDb
+      .collection("bookmarks")
+      .where("userId", "==", userId)
+      .get();
+
+    if (snap.empty) {
+      return [defaultCompanions[0], defaultCompanions[1]];
+    }
+
+    const companionIds = snap.docs.map((d) => d.data().companionId);
+    return defaultCompanions.filter((c) => companionIds.includes(c.id));
+  } catch (err) {
+    return [defaultCompanions[0], defaultCompanions[1]];
   }
-  // We don't need the bookmarks data, so we return only the companions
-  return data.map(({ companions }) => companions);
 };
