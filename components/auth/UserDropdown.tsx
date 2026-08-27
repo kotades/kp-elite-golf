@@ -31,8 +31,8 @@ export default function UserDropdown() {
   if (!user) return null;
 
   const displayName = profile?.displayName || user.displayName || user.email?.split("@")[0] || "Tour Golfer";
-  const photoUrl = profile?.photoURL || user.photoURL || "/coaches/coach-1.jpg";
-  const handicap = profile?.handicap ?? 12.4;
+  const customPhoto = profile?.photoURL || user.photoURL;
+  const handicap = profile?.handicap ?? 0;
 
   const handleSignOut = async () => {
     try {
@@ -49,13 +49,17 @@ export default function UserDropdown() {
           className="flex items-center gap-2.5 p-1 pr-2.5 rounded-full bg-[#161B22] border border-[#30363D] hover:border-[#D4AF37]/60 transition-all outline-none group cursor-pointer"
           aria-label="User profile menu"
         >
-          <div className="relative size-8 rounded-full overflow-hidden border border-[#D4AF37]/70 shrink-0">
-            <Image
-              src={photoUrl}
-              alt={displayName}
-              fill
-              className="object-cover"
-            />
+          <div className="relative size-8 rounded-full overflow-hidden border border-[#D4AF37]/70 shrink-0 bg-gradient-to-br from-[#154734] to-[#0B2B1F] flex items-center justify-center">
+            {customPhoto ? (
+              <Image
+                src={customPhoto}
+                alt={displayName}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <UserIcon className="size-4 text-[#D4AF37]" />
+            )}
           </div>
 
           <div className="hidden sm:flex flex-col text-left">

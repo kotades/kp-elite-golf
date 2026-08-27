@@ -51,10 +51,10 @@ export default function MyJourneyPage() {
     fetchData();
   }, [user]);
 
-  const displayName = profile?.displayName || user?.displayName || "Jordan Miller";
-  const userPhoto = profile?.photoURL || user?.photoURL || "/coaches/coach-1.jpg";
-  const handicap = profile?.handicap ?? progressData?.handicapCurrent ?? 12.4;
-  const startHandicap = progressData?.handicapStart ?? 18.2;
+  const displayName = profile?.displayName || user?.displayName || (user?.email ? user.email.split("@")[0] : "Tour Golfer");
+  const userPhoto = profile?.photoURL || user?.photoURL;
+  const handicap = profile?.handicap ?? progressData?.handicapCurrent ?? 0;
+  const startHandicap = progressData?.handicapStart ?? 0;
   const handicapDrop = (startHandicap - handicap).toFixed(1);
 
   return (
@@ -66,13 +66,17 @@ export default function MyJourneyPage() {
         <div className="absolute right-0 top-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 z-10">
-          <div className="relative size-20 sm:size-24 rounded-2xl overflow-hidden border-2 border-[#D4AF37] shadow-xl shrink-0">
-            <Image
-              src={userPhoto}
-              alt={displayName}
-              fill
-              className="object-cover"
-            />
+          <div className="relative size-20 sm:size-24 rounded-2xl overflow-hidden border-2 border-[#D4AF37] shadow-xl shrink-0 bg-[#0D1117] flex items-center justify-center">
+            {userPhoto ? (
+              <Image
+                src={userPhoto}
+                alt={displayName}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <Trophy className="size-10 text-[#D4AF37]" />
+            )}
           </div>
 
           <div className="space-y-1">

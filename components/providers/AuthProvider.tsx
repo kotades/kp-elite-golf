@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
           displayName: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split("@")[0] : "Tour Golfer"),
-          photoURL: firebaseUser.photoURL || "/coaches/coach-1.jpg",
+          photoURL: firebaseUser.photoURL || "",
           handicap: 0,
           role: "student",
           streakDays: 0,
