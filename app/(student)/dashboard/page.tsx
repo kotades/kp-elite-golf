@@ -175,7 +175,7 @@ export default function StudentDashboardPage() {
               <div className="flex items-center gap-2.5">
                 <Flame className="size-5 text-orange-400 fill-orange-400" />
                 <div>
-                  <p className="text-xs font-bold text-white">{profile?.streakDays || 3}-Day Streak</p>
+                  <p className="text-xs font-bold text-white">{profile?.streakDays || 0}-Day Streak</p>
                   <p className="text-[10px] text-gray-400">Active Practice</p>
                 </div>
               </div>
@@ -273,6 +273,13 @@ export default function StudentDashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {submissions.length === 0 && (
+            <div className="col-span-full py-12 text-center rounded-3xl bg-[#161B22] border border-[#30363D] border-dashed">
+              <Upload className="size-8 text-[#30363D] mx-auto mb-3" />
+              <h3 className="text-sm font-semibold text-white mb-1">No Swings Uploaded</h3>
+              <p className="text-xs text-gray-500 max-w-sm mx-auto">Upload your first swing video to receive personalized AI telemetry analysis and instructor feedback.</p>
+            </div>
+          )}
           {submissions.map((sub) => (
             <div
               key={sub.id}
