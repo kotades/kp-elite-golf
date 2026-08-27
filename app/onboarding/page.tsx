@@ -86,9 +86,11 @@ export default function StudentIntakeApplicationPage() {
               <span className="font-mono text-white">{formData.email}</span>
             </div>
           </div>
-            <Link href="/">
-              <Button className="w-full sm:w-auto bg-[#161B22] hover:bg-[#1E2530] text-white border border-[#30363D] text-sm px-6 py-3 rounded-xl cursor-pointer">
-                Return Home
+          
+          <div className="pt-4 flex items-center justify-center">
+            <Link href="/dashboard">
+              <Button className="w-full sm:w-auto bg-[#D4AF37] text-black font-bold px-6 py-3 rounded-xl cursor-pointer">
+                Enter Student Dashboard
               </Button>
             </Link>
           </div>
