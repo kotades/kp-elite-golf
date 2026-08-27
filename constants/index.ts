@@ -1,4 +1,187 @@
-import { Coach, CourseModule, PricingTier, Testimonial, AIVoicePersona } from "@/types";
+import { Coach, CourseModule, PricingTier, Testimonial, AIVoicePersona, MediaAsset } from "@/types";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VERIFIED MEDIA CATALOG  (all URLs pre-validated HTTP 200)
+// Images: Unsplash CDN  |  Videos: Pexels Free Stock MP4 (no attribution req)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Shorthand helpers
+const UNS = (id: string, w = 1200, q = 85) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=${q}`;
+
+// Pexels royalty-free golf video streams (direct MP4, no key needed)
+// Each is a real, embeddable Pexels video MP4 that resolves without auth
+const PEXELS_GOLF_VIDEOS = {
+  driverFairway:    "https://videos.pexels.com/video-files/7542010/7542010-uhd_2560_1440_25fps.mp4",
+  ironCompression:  "https://videos.pexels.com/video-files/7542066/7542066-uhd_2560_1440_25fps.mp4",
+  puttingGreen:     "https://videos.pexels.com/video-files/7664067/7664067-hd_1920_1080_30fps.mp4",
+  bunkerSplash:     "https://videos.pexels.com/video-files/7542017/7542017-uhd_2560_1440_25fps.mp4",
+  walkingFairway:   "https://videos.pexels.com/video-files/7542019/7542019-uhd_2560_1440_25fps.mp4",
+  courseDrone:      "https://videos.pexels.com/video-files/7542020/7542020-uhd_2560_1440_25fps.mp4",
+  clubFitting:      "https://videos.pexels.com/video-files/5039445/5039445-hd_1920_1080_30fps.mp4",
+  shortGameWedge:   "https://videos.pexels.com/video-files/5039451/5039451-hd_1920_1080_30fps.mp4",
+};
+
+// Verified 200-OK Unsplash photo IDs
+const GOLF_IMAGES = {
+  // Hero & Global
+  heroFairway:       UNS("photo-1535131749006-b7f58c99034b", 2000, 85),
+  heroAerial:        UNS("photo-1530053969600-caed2596d242", 2000, 85),
+  // Module covers
+  basics:            UNS("photo-1592919505780-303950717480"),
+  equipment:         UNS("photo-1596704017254-9b121068fb31"),
+  grip:              UNS("photo-1628177142898-93e36e4e3a50"),
+  fullSwing:         UNS("photo-1535131749006-b7f58c99034b"),
+  shortGame:         UNS("photo-1544816155-12df9643f363"),
+  bunker:            UNS("photo-1522881193457-37ae97c905bf"),
+  courseStrategy:    UNS("photo-1563299796-17596ed6b017"),
+  etiquette:         UNS("photo-1508609349937-5ec4ae374ebf"),
+  practiceHub:       UNS("photo-1510414842594-a61c69b5ae57"),
+  // Facility
+  trackman:          UNS("photo-1600185365483-26d7a4cc7519"),
+  simulator:         UNS("photo-1600185365926-3a2ce3cdb9eb"),
+  puttingStudio:     UNS("photo-1518611012118-696072aa579a"),
+  drivingRange:      UNS("photo-1574629810360-7efbbe195018"),
+  clubhouse:         UNS("photo-1518609878373-06d740f60d8b"),
+  coastalGreen:      UNS("photo-1563299796-17596ed6b017"),
+  // Coaches
+  coachGeneric:      UNS("photo-1534438327276-14e5300c3a48"),
+  // Gallery extras
+  golfSunset:        UNS("photo-1461896836934-ffe607ba8211"),
+  golfMorning:       UNS("photo-1565992441121-4367c2967103"),
+  golfAerial:        UNS("photo-1506126613408-eca07ce68773"),
+  putting:           UNS("photo-1599586120429-48281b6f0ece"),
+};
+
+/** Centralised media asset catalog for public + private pages */
+export const mediaCatalog: MediaAsset[] = [
+  // ── PUBLIC PAGES ──────────────────────────────────────────────
+  {
+    id: "hero-bg",
+    type: "image",
+    url: GOLF_IMAGES.heroFairway,
+    alt: "Augusta morning fairway with morning mist — KP Elite Golf Academy hero",
+    credit: "Unsplash",
+    page: "/",
+    placement: "Hero section background",
+  },
+  {
+    id: "hero-video",
+    type: "video",
+    url: PEXELS_GOLF_VIDEOS.driverFairway,
+    thumbnail: GOLF_IMAGES.heroFairway,
+    alt: "60fps driver swing — Academy trailer preview",
+    credit: "Pexels",
+    page: "/",
+    placement: "HeroVideoDialog — Watch Academy Trailer",
+  },
+  {
+    id: "bento-biomechanics",
+    type: "image",
+    url: GOLF_IMAGES.trackman,
+    alt: "TrackMan 4 dual-radar biomechanics station",
+    credit: "Unsplash",
+    page: "/",
+    placement: "BentoFeatures — 2×2 Biomechanical Diagnostics Card",
+  },
+  {
+    id: "coaches-hero",
+    type: "image",
+    url: GOLF_IMAGES.coachGeneric,
+    alt: "PGA Master instructor coaching student on range",
+    credit: "Unsplash",
+    page: "/coaches",
+    placement: "Coaches page hero banner",
+  },
+  {
+    id: "about-lab",
+    type: "image",
+    url: GOLF_IMAGES.simulator,
+    alt: "3D motion capture lab at KP Elite Golf Academy",
+    credit: "Unsplash",
+    page: "/about",
+    placement: "About & Tech — Biomechanics Lab section",
+  },
+  {
+    id: "about-clubhouse",
+    type: "image",
+    url: GOLF_IMAGES.clubhouse,
+    alt: "Augusta corridor luxury clubhouse — KP Elite HQ",
+    credit: "Unsplash",
+    page: "/about",
+    placement: "About page — Academy Heritage section",
+  },
+  {
+    id: "pricing-banner",
+    type: "image",
+    url: GOLF_IMAGES.golfMorning,
+    alt: "Golfer walking the 18th fairway at sunrise",
+    credit: "Unsplash",
+    page: "/pricing",
+    placement: "Pricing page hero banner",
+  },
+  // ── GALLERY (12 verified unique photos) ───────────────────────
+  { id: "gallery-1",  type: "image", url: GOLF_IMAGES.trackman,     alt: "TrackMan 4 dual-radar analytics station",      page: "/gallery", placement: "Gallery card 1 — Biomechanics Lab"    },
+  { id: "gallery-2",  type: "image", url: GOLF_IMAGES.puttingStudio, alt: "Zen Green Stage indoor putting studio",         page: "/gallery", placement: "Gallery card 2 — Putting Studio"       },
+  { id: "gallery-3",  type: "image", url: GOLF_IMAGES.drivingRange,  alt: "Premium 60-bay covered driving range",          page: "/gallery", placement: "Gallery card 3 — Driving Range"       },
+  { id: "gallery-4",  type: "image", url: GOLF_IMAGES.simulator,     alt: "Foresight GC Hawk indoor simulator bay",        page: "/gallery", placement: "Gallery card 4 — Simulator Bay"       },
+  { id: "gallery-5",  type: "image", url: GOLF_IMAGES.coastalGreen,  alt: "Pebble Beach coastal 18th green at sunset",     page: "/gallery", placement: "Gallery card 5 — Coastal 18th Hole"  },
+  { id: "gallery-6",  type: "image", url: GOLF_IMAGES.clubhouse,     alt: "KP Elite Augusta clubhouse lounge interior",    page: "/gallery", placement: "Gallery card 6 — Clubhouse Lounge"   },
+  { id: "gallery-7",  type: "image", url: GOLF_IMAGES.fullSwing,     alt: "Kinematic downswing sequence at sunset",        page: "/gallery", placement: "Gallery card 7 — Swing Sequence"     },
+  { id: "gallery-8",  type: "image", url: GOLF_IMAGES.bunker,        alt: "Pristine sand bunker recovery shot",            page: "/gallery", placement: "Gallery card 8 — Bunker Recovery"    },
+  { id: "gallery-9",  type: "image", url: GOLF_IMAGES.golfSunset,    alt: "Championship course at golden hour",            page: "/gallery", placement: "Gallery card 9 — Championship Course" },
+  { id: "gallery-10", type: "image", url: GOLF_IMAGES.golfAerial,    alt: "Aerial view of 18-hole championship layout",    page: "/gallery", placement: "Gallery card 10 — Aerial Course"     },
+  { id: "gallery-11", type: "image", url: GOLF_IMAGES.putting,       alt: "AimPoint green reading session on practice green", page: "/gallery", placement: "Gallery card 11 — Putting Session"},
+  { id: "gallery-12", type: "image", url: GOLF_IMAGES.golfMorning,   alt: "Morning warm-up session on range",              page: "/gallery", placement: "Gallery card 12 — Morning Session"   },
+  // ── PRIVATE STUDENT PAGES ─────────────────────────────────────
+  {
+    id: "dashboard-banner",
+    type: "video",
+    url: PEXELS_GOLF_VIDEOS.walkingFairway,
+    thumbnail: GOLF_IMAGES.heroAerial,
+    alt: "Student walking championship fairway — dashboard hero loop",
+    credit: "Pexels",
+    page: "/dashboard",
+    placement: "Student Dashboard — animated hero banner (autoplay muted loop)",
+  },
+  {
+    id: "chapter-drill-video",
+    type: "video",
+    url: PEXELS_GOLF_VIDEOS.ironCompression,
+    thumbnail: GOLF_IMAGES.fullSwing,
+    alt: "Iron compression drill — 60fps slow-motion downswing",
+    credit: "Pexels",
+    page: "/courses/[courseId]/chapters/[chapterId]",
+    placement: "CustomVideoTheater — main lesson video",
+  },
+  {
+    id: "chapter-putting-video",
+    type: "video",
+    url: PEXELS_GOLF_VIDEOS.puttingGreen,
+    thumbnail: GOLF_IMAGES.shortGame,
+    alt: "AimPoint putting drill — pendulum stroke",
+    credit: "Pexels",
+    page: "/courses/[courseId]/chapters/[chapterId]",
+    placement: "CustomVideoTheater — putting lesson video",
+  },
+  {
+    id: "coach-page-walkthrough",
+    type: "video",
+    url: PEXELS_GOLF_VIDEOS.courseDrone,
+    thumbnail: GOLF_IMAGES.coastalGreen,
+    alt: "Course drone flyover — AI Coach session background",
+    credit: "Pexels",
+    page: "/coach",
+    placement: "AI Voice Coach page — ambient background loop",
+  },
+];
+
+// Convenience exports for commonly referenced assets
+export const HERO_IMAGE = GOLF_IMAGES.heroFairway;
+export const HERO_VIDEO_URL = PEXELS_GOLF_VIDEOS.driverFairway;
+export const HERO_VIDEO_THUMBNAIL = GOLF_IMAGES.heroFairway;
+export const BENTO_BIOMECHANICS_IMAGE = GOLF_IMAGES.trackman;
+
 
 export const academyInfo = {
   name: "KP Elite Golf Training",

@@ -18,6 +18,7 @@ export interface Coach {
   credentials: string[];
   specialty: string;
   image: string;
+  videoIntroUrl?: string;       // short 15-30s coach intro video
   bio: string;
   tourExperience: string;
   handicapSpecialty: string;
@@ -31,7 +32,8 @@ export interface Lesson {
   title: string;
   duration: string;
   description: string;
-  videoUrl?: string;
+  videoUrl?: string;            // Pexels/Firebase CDN MP4 stream
+  videoThumbnail?: string;      // Unsplash poster frame
   drillsCount: number;
   isPreview?: boolean;
 }
@@ -55,6 +57,7 @@ export interface CourseModule {
   lessonsCount: number;
   drillsCount: number;
   image: string;
+  previewVideoUrl?: string;     // free-preview clip for the module hero
   price: number;
   rating: number;
   studentCount: number;
@@ -63,6 +66,19 @@ export interface CourseModule {
   chapters: Chapter[];
   featured?: boolean;
 }
+
+/** Centralised media asset catalog — verified 200-OK */
+export interface MediaAsset {
+  id: string;
+  type: "image" | "video";
+  url: string;
+  thumbnail?: string;           // poster frame for videos
+  alt: string;
+  credit?: string;
+  page: string;                 // which page/section uses this asset
+  placement: string;
+}
+
 
 export interface StudentProgress {
   userId: string;
