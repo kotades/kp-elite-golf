@@ -19,7 +19,9 @@ export const metadata: Metadata = {
   description:
     "The elite PGA-caliber hybrid coaching system combining high-speed biomechanics, personalized 1-on-1 mastery, and 24/7 AI voice coaching.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
 };
 
