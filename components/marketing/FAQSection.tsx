@@ -152,7 +152,7 @@ export default function FAQSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/courses/apply">
+              <Link href="/?auth=signup">
                 <Button className="w-full sm:w-auto bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-xl hover:scale-105 transition-all cursor-pointer">
                   Apply for Academy Intake ($7,200)
                 </Button>

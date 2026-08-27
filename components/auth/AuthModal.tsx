@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { Trophy, Mail, Lock, User as UserIcon, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 interface AuthModalProps {
@@ -25,6 +26,7 @@ export default function AuthModal({
   defaultTab = "signin",
 }: AuthModalProps) {
   const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<"signin" | "signup">(defaultTab);
   const [email, setEmail] = useState("");
@@ -48,10 +50,10 @@ export default function AuthModal({
     try {
       await signInWithGoogle();
       onOpenChange(false);
-      resetForm();
+      router.push("/dashboard");
     } catch (err: any) {
       console.error("Google sign in error:", err);
-      setError(err?.message || "Failed to sign in with Google. Please try again.");
+      setError(err.message || "Failed to sign in with Google.");
     } finally {
       setLoading(false);
     }
@@ -64,13 +66,11 @@ export default function AuthModal({
     try {
       await signInWithEmail(email, password);
       onOpenChange(false);
-      resetForm();
+      router.push("/dashboard");
     } catch (err: any) {
       console.error("Email sign in error:", err);
       if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
-        setError("Invalid email or password. Please verify your credentials.");
-      } else if (err.code === "auth/too-many-requests") {
-        setError("Too many failed attempts. Please reset your password or try again later.");
+        setError("Invalid email or password.");
       } else {
         setError(err.message || "Failed to sign in. Please try again.");
       }
@@ -90,11 +90,12 @@ export default function AuthModal({
         return;
       }
       await signUpWithEmail(email, password, name);
-      setSuccessMsg("Account created successfully! Welcome to KP Elite Golf.");
+      setSuccessMsg("Account created! Redirecting to setup...");
       setTimeout(() => {
         onOpenChange(false);
         resetForm();
-      }, 1200);
+        router.push("/onboarding");
+      }, 1000);
     } catch (err: any) {
       console.error("Email sign up error:", err);
       if (err.code === "auth/email-already-in-use") {

@@ -128,7 +128,7 @@ export default function StudentLayout({
           Next private 1-on-1 session in 2 days.
         </p>
         <Link
-          href="/courses/apply"
+          href="/?auth=signup"
           className="text-[11px] font-semibold text-[#D4AF37] hover:underline flex items-center gap-1"
         >
           <span>Manage Session</span>

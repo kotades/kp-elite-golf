@@ -130,7 +130,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/courses/apply" className="text-gray-400 hover:text-white">
+                <Link href="/?auth=signup" className="text-gray-400 hover:text-white">
                   8-Week Foundation ($7,200)
                 </Link>
               </li>

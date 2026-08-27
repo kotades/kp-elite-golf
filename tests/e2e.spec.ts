@@ -136,7 +136,7 @@ test.describe("KP Elite Golf Training - Comprehensive End-to-End Test Suite", ()
     test("Student application '/courses/apply' renders multi-step intake form and submits successfully", async ({
       page,
     }) => {
-      await page.goto("/courses/apply");
+      await page.goto("/?auth=signup");
 
       // Verify Header
       await expect(page.getByRole("heading", { level: 1 })).toContainText("New Student Intake");

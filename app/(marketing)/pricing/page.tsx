@@ -352,7 +352,7 @@ export default function PricingPage() {
               </p>
             </div>
           </div>
-          <Link href="/courses/apply" className="shrink-0 w-full sm:w-auto">
+          <Link href="/?auth=signup" className="shrink-0 w-full sm:w-auto">
             <Button className="w-full sm:w-auto bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold px-8 py-6 rounded-xl shadow-lg cursor-pointer">
               Apply with Guarantee
             </Button>

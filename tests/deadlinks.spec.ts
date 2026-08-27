@@ -9,7 +9,7 @@ test.describe("KP Elite Golf Training - Deadlink Crawler & 404 Route Verificatio
     "/about",
     "/contact",
     "/gallery",
-    "/courses/apply",
+    "/?auth=signup",
     "/privacy",
     "/terms",
     "/dashboard",

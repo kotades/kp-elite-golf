@@ -648,7 +648,7 @@ export const pricingTiers: PricingTier[] = [
       "Guaranteed handicap reduction or 100% money-back guarantee",
     ],
     ctaText: "Apply for Academy Intake",
-    ctaLink: "/courses/apply",
+    ctaLink: "/?auth=signup",
   },
   {
     id: "vip-coaching",

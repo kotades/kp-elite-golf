@@ -121,7 +121,7 @@ export default function ContactPage() {
               <p className="text-xs text-gray-300">
                 Skip the inquiry line and complete our official 8-Week Foundation Program intake application.
               </p>
-              <Link href="/courses/apply">
+              <Link href="/?auth=signup">
                 <Button className="w-full mt-2 bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold text-xs py-3 rounded-xl">
                   Go to Intake Portal →
                 </Button>

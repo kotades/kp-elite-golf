@@ -199,7 +199,7 @@ export default function BentoFeatures() {
             </div>
 
             <Link
-              href="/courses/apply"
+              href="/?auth=signup"
               className="mt-4 text-center py-2.5 rounded-xl bg-[#1F242C] hover:bg-[#D4AF37] hover:text-[#0B2B1F] text-xs font-bold text-white transition-all border border-[#30363D]"
             >
               View Full Syllabus

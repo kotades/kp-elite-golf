@@ -16,12 +16,6 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
-  webServer: {
-    command: "npm run dev -- -p 3003",
-    url: "http://localhost:3003",
-    reuseExistingServer: !process.env.CI,
-    timeout: 60000,
-  },
   projects: [
     {
       name: "chromium",

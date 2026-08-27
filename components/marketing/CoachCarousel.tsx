@@ -133,7 +133,7 @@ export default function CoachCarousel() {
                     <span className="text-white font-semibold">Specialty: </span>
                     <span className="truncate block max-w-[150px]">{coach.specialty}</span>
                   </div>
-                  <Link href="/courses/apply">
+                  <Link href="/?auth=signup">
                     <Button className="bg-[#154734] hover:bg-[#1E5D46] text-white text-xs font-bold rounded-xl px-3.5 py-2 flex items-center gap-1.5 cursor-pointer">
                       <Calendar className="size-3.5 text-[#D4AF37]" />
                       Book Lesson

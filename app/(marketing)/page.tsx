@@ -63,7 +63,7 @@ export default function MarketingPage() {
 
           {/* Hero Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link href="/courses/apply">
+            <Link href="/?auth=signup">
               <Button className="w-full sm:w-auto bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-extrabold text-base px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.5)] transition-all cursor-pointer">
                 <span>Start Free Trial</span>
                 <ArrowRight className="size-5 ml-2" />

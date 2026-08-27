@@ -192,7 +192,7 @@ export default function AboutPage() {
               Apply for our 8-Week Foundation Program or start with our on-demand Practice Library today.
             </p>
           </div>
-          <Link href="/courses/apply">
+          <Link href="/?auth=signup">
             <Button className="bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold px-8 py-6 rounded-xl shadow-lg cursor-pointer">
               Apply for Intake
             </Button>

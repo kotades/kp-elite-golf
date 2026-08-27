@@ -140,7 +140,7 @@ export default function CoachesPage() {
 
                     {/* Action CTAs */}
                     <div className="flex flex-wrap items-center gap-4 pt-2">
-                      <Link href="/courses/apply">
+                      <Link href="/?auth=signup">
                         <Button className="bg-[#154734] hover:bg-[#1E5D46] text-white border border-[#D4AF37]/40 text-xs font-semibold px-6 py-5 rounded-xl shadow-lg cursor-pointer flex items-center gap-2">
                           <span>Apply for Mentorship</span>
                           <ArrowRight className="size-4 text-[#D4AF37]" />
@@ -213,7 +213,7 @@ export default function CoachesPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-4 pt-2">
-            <Link href="/courses/apply">
+            <Link href="/?auth=signup">
               <Button className="bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold px-6 py-5 rounded-xl shadow-lg cursor-pointer">
                 Book Initial Swing Assessment
               </Button>

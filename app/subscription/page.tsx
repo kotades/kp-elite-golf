@@ -31,7 +31,7 @@ export default function SubscriptionPage() {
       return;
     }
     if (tierId === "foundation-program") {
-      window.location.href = "/courses/apply";
+      window.location.href = "/?auth=signup";
     } else {
       alert(`Upgraded to ${tierId}. Thank you for choosing KP Elite Golf!`);
     }
@@ -74,7 +74,7 @@ export default function SubscriptionPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/courses/apply">
+            <Link href="/?auth=signup">
               <Button className="bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold text-xs px-5 py-2.5 rounded-xl cursor-pointer">
                 Manage Enrollment
               </Button>
@@ -170,7 +170,7 @@ export default function SubscriptionPage() {
           </div>
         </div>
 
-        <Link href="/courses/apply" className="shrink-0">
+        <Link href="/?auth=signup" className="shrink-0">
           <Button className="bg-[#154734] hover:bg-[#1E5D46] text-white border border-[#D4AF37]/40 text-xs font-semibold px-4 py-2 rounded-xl cursor-pointer">
             Read Policy Terms
           </Button>

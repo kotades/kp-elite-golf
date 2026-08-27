@@ -214,7 +214,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
             </div>
 
             <div className="space-y-2.5">
-              <Link href="/courses/apply">
+              <Link href="/?auth=signup">
                 <Button className="w-full bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-bold text-sm py-3.5 rounded-xl shadow-lg hover:scale-102 transition-all cursor-pointer">
                   Apply for Foundation Program
                 </Button>

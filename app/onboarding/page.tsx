@@ -69,34 +69,23 @@ export default function StudentIntakeApplicationPage() {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-4xl font-bold">
-            Application Received!
+            Profile Setup Complete!
           </h1>
 
           <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-            Thank you, <span className="text-[#D4AF37] font-semibold">{formData.fullName}</span>. Head PGA Master Instructor Kevin Palmer and our admissions committee will review your golf goals and schedule availability.
+            Thank you, <span className="text-[#D4AF37] font-semibold">{formData.fullName}</span>. Your golf goals have been saved to your student profile.
           </p>
 
           <div className="p-6 rounded-2xl bg-[#161B22] border border-[#30363D] text-left text-xs text-gray-300 space-y-2">
-            <div className="flex justify-between">
-              <span className="text-gray-400">Selected Program:</span>
-              <span className="font-bold text-white">8-Week Foundation Program ($7,200)</span>
-            </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Experience Level:</span>
               <span className="font-semibold text-[#D4AF37]">{formData.experienceLevel}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-400">Confirmation Sent To:</span>
+              <span className="text-gray-400">Account:</span>
               <span className="font-mono text-white">{formData.email}</span>
             </div>
           </div>
-
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/dashboard">
-              <Button className="w-full sm:w-auto bg-[#D4AF37] text-[#0B2B1F] font-bold text-sm px-6 py-3 rounded-xl cursor-pointer">
-                Go to Student Portal
-              </Button>
-            </Link>
             <Link href="/">
               <Button className="w-full sm:w-auto bg-[#161B22] hover:bg-[#1E2530] text-white border border-[#30363D] text-sm px-6 py-3 rounded-xl cursor-pointer">
                 Return Home
@@ -118,7 +107,7 @@ export default function StudentIntakeApplicationPage() {
             Academy Admissions Portal
           </div>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
-            New Student Intake & <span className="gold-gradient-text">Application</span>
+            Complete Your Student <span className="gold-gradient-text">Profile</span>
           </h1>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             Please provide your background, goals, and scheduling availability. This helps our PGA instructors tailor your custom 8-Week Foundation curriculum before your first private lesson.
@@ -402,10 +391,10 @@ export default function StudentIntakeApplicationPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
-                  <span>Submitting Application to Admissions...</span>
+                  <span>Saving Profile Details...</span>
                 </>
               ) : (
-                <span>Submit Application & Reserve Intake Slot</span>
+                <span>Save Profile & Enter Academy</span>
               )}
             </Button>
           </div>

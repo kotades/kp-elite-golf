@@ -132,7 +132,7 @@ export default function PricingSection() {
               </p>
             </div>
           </div>
-          <Link href="/courses/apply" className="shrink-0">
+          <Link href="/?auth=signup" className="shrink-0">
             <Button className="bg-[#154734] hover:bg-[#1E5D46] text-white text-xs font-semibold px-4 py-2 rounded-xl border border-[#D4AF37]/30">
               Review Enrollment Policy
             </Button>

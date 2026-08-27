@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import {
   Trophy,
   Menu,
@@ -24,8 +24,20 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authTab, setAuthTab] = useState<"signin" | "signup">("signin");
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (searchParams.get("auth") === "signup") {
+      setAuthTab("signup");
+      setAuthModalOpen(true);
+      // Clean up URL
+      router.replace(pathname);
+    }
+  }, [searchParams, pathname, router]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,21 +115,19 @@ export default function Header() {
               <UserDropdown />
             ) : (
               <button
-                onClick={() => setAuthModalOpen(true)}
+                onClick={() => { setAuthTab("signin"); setAuthModalOpen(true); }}
                 className="text-sm font-medium text-gray-300 hover:text-white px-3 py-2 transition-colors cursor-pointer"
               >
                 Student Sign In
               </button>
             )}
 
-            <Link href="/courses/apply">
-              <Button className="relative group overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg hover:shadow-[#D4AF37]/20 hover:scale-[1.02] transition-all cursor-pointer">
-                <span className="relative z-10 flex items-center gap-1.5">
-                  Apply for Academy
-                  <ChevronRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </Button>
-            </Link>
+            <Button onClick={() => { setAuthTab("signup"); setAuthModalOpen(true); }} className="relative group overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-bold text-sm px-5 py-2.5 rounded-xl shadow-lg hover:shadow-[#D4AF37]/20 hover:scale-[1.02] transition-all cursor-pointer">
+              <span className="relative z-10 flex items-center gap-1.5">
+                Apply for Academy
+                <ChevronRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+              </span>
+            </Button>
           </div>
 
           {/* Mobile Hamburger */}
@@ -163,7 +173,7 @@ export default function Header() {
                 </button>
               )}
               <Link
-                href="/courses/apply"
+                href="/?auth=signup"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Button className="w-full bg-[#D4AF37] hover:bg-[#F3E5AB] text-[#0B2B1F] font-bold rounded-xl py-3 cursor-pointer">
@@ -178,6 +188,7 @@ export default function Header() {
       <AuthModal
         isOpen={authModalOpen}
         onOpenChange={setAuthModalOpen}
+        defaultTab={authTab}
       />
     </>
   );
