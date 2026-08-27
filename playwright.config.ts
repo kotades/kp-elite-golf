@@ -12,7 +12,7 @@ export default defineConfig({
   },
   reporter: [["list"]],
   use: {
-    baseURL: process.env.BASE_URL || "http://localhost:3003",
+    baseURL: process.env.BASE_URL || "http://localhost:3005",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },

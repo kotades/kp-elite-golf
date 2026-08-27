@@ -113,6 +113,7 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
           <CustomVideoTheater
             lessonTitle={activeLesson.title}
             thumbnail="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=85"
+            videoUrl="https://videos.pexels.com/video-files/7542066/7542066-uhd_2560_1440_25fps.mp4"
           />
 
           {/* Tabbed Lesson Drawer */}
