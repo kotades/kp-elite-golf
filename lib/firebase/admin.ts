@@ -6,7 +6,8 @@ import { getStorage, Storage } from "firebase-admin/storage";
 let adminApp: App;
 
 if (!getApps().length) {
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "kota-reuse";
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
   
   if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
     try {
@@ -14,18 +15,18 @@ if (!getApps().length) {
       adminApp = initializeApp({
         credential: cert(serviceAccount),
         projectId,
-        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "kota-reuse.firebasestorage.app",
+        storageBucket,
       });
     } catch {
       adminApp = initializeApp({
         projectId,
-        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "kota-reuse.firebasestorage.app",
+        storageBucket,
       });
     }
   } else {
     adminApp = initializeApp({
       projectId,
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "kota-reuse.firebasestorage.app",
+      storageBucket,
     });
   }
 } else {
