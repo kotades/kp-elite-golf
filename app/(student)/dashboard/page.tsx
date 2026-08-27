@@ -179,18 +179,22 @@ export default function StudentDashboardPage() {
                   <p className="text-[10px] text-gray-400">Active Practice</p>
                 </div>
               </div>
-              <span className="text-xs font-mono font-bold text-emerald-400">+120 pts</span>
+              <span className="text-xs font-mono font-bold text-emerald-400">
+                +{progressData?.overallScore ? progressData.overallScore * 10 : 0} pts
+              </span>
             </div>
 
             <div className="flex items-center justify-between p-3 rounded-2xl bg-[#0D1117] border border-[#30363D]">
               <div className="flex items-center gap-2.5">
                 <Award className="size-5 text-[#D4AF37]" />
                 <div>
-                  <p className="text-xs font-bold text-white">🥈 Consistency</p>
-                  <p className="text-[10px] text-gray-400">Milestone Stage 02</p>
+                  <p className="text-xs font-bold text-white">🏆 {progressData?.currentMilestone || "Foundation"}</p>
+                  <p className="text-[10px] text-gray-400">Milestone Track</p>
                 </div>
               </div>
-              <span className="text-[10px] font-bold text-[#D4AF37] uppercase">Certified</span>
+              <span className="text-[10px] font-bold text-[#D4AF37] uppercase">
+                {progressData?.overallScore && progressData.overallScore > 0 ? "Active" : "Enrolled"}
+              </span>
             </div>
           </div>
         </div>
@@ -217,7 +221,7 @@ export default function StudentDashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {golfModules.slice(4, 7).map((module) => (
+          {golfModules.slice(0, 3).map((module) => (
             <div
               key={module.id}
               className="rounded-2xl bg-[#161B22] border border-[#30363D] p-5 flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all group shadow-lg"

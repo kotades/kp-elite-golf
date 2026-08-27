@@ -127,13 +127,13 @@ export default function StudentLayout({
           <ShieldCheck className="size-3.5 text-[#D4AF37]" />
         </div>
         <p className="text-xs text-gray-200">
-          Next private 1-on-1 session in 2 days.
+          {profile ? "PGA Master 1-on-1 coaching active." : "Join KP Elite Academy for private coaching."}
         </p>
         <Link
-          href="/?auth=signup"
+          href="/coach"
           className="text-[11px] font-semibold text-[#D4AF37] hover:underline flex items-center gap-1"
         >
-          <span>Manage Session</span>
+          <span>Launch AI Voice Coach</span>
           <ArrowUpRight className="size-3" />
         </Link>
       </div>
