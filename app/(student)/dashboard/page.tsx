@@ -48,14 +48,19 @@ export default function StudentDashboardPage() {
     fetchDashboardData();
   }, [user]);
 
+  // Derive current resume from user progress or fallback to Module 1
+  const firstModule = golfModules[0];
+  const activeModuleId = progressData?.currentModuleId || firstModule.id;
+  const activeModule = golfModules.find(m => m.id === activeModuleId) || firstModule;
+  
   const currentResume = {
-    courseTitle: "Module 04 • Full Swing Biomechanics",
-    chapterTitle: "Chapter 2: Downswing Transition & Shaft Shallowing",
-    lessonTitle: "Lesson 3: Lower Body Pressure Shift onto Lead Side",
-    pausedTime: "14:28 / 25:00",
-    progressPercent: progressData?.overallScore ?? 68,
-    image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=85",
-    link: "/courses/full-swing-mechanics/chapters/m4-c1",
+    courseTitle: `${activeModule.title} • Fundamentals`,
+    chapterTitle: "Chapter 1: Assessment & Baseline",
+    lessonTitle: "Welcome to KP Elite Academy",
+    pausedTime: "00:00 / 12:45",
+    progressPercent: progressData?.overallScore ?? 0,
+    image: activeModule.image || "/courses/course-1.jpg",
+    link: `/courses/${activeModule.id}`,
   };
 
   return (
@@ -162,7 +167,7 @@ export default function StudentDashboardPage() {
                 8-Week Path
               </span>
             </div>
-            <RadialProgressRing progress={progressData?.overallScore ?? 68} />
+            <RadialProgressRing progress={progressData?.overallScore ?? 0} />
           </div>
 
           <div className="space-y-3 pt-2 border-t border-[#30363D]">

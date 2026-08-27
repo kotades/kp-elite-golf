@@ -1,0 +1,95 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // In this app, admins could be designated by a custom claim or a specific email (bootstrapping)
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'admin@kpelite.com' ||
+        ('role' in request.auth.token && request.auth.token.role == 'admin')
+      );
+    }
+    
+    // Type checking helpers
+    function isValidString(text, min, max) {
+      return text is string && text.size() >= min && text.size() <= max;
+    }
+
+    // 1. KP Elite Users
+    match /kp_elite_users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Allow creation only if they are creating their own profile and setting role to 'student'
+      allow create: if isOwner(userId)
+                    && request.resource.data.role == 'student'
+                    && isValidString(request.resource.data.email, 3, 255);
+                    
+      // Allow updates, but PREVENT users from escalating their own role
+      allow update: if isOwner(userId)
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName', 'photoURL', 'handicap', 'streakDays', 'updatedAt'])
+                    && (!('role' in request.resource.data) || request.resource.data.role == resource.data.role);
+                    
+      allow delete: if isAdmin();
+    }
+    
+    // 2. Intake Applications
+    match /kp_elite_intake_applications/{docId} {
+      // Users can create their own application, or admins can create for them
+      allow create: if isAuthenticated() 
+                    && (request.resource.data.userId == request.auth.uid || isAdmin());
+                    
+      // Only the applicant or an admin can read/update
+      allow read, update: if isAuthenticated() 
+                          && (resource.data.userId == request.auth.uid || isAdmin());
+                          
+      allow delete: if isAdmin();
+    }
+    
+    // 3. Student Progress
+    match /kp_elite_student_progress/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      // Students can update their own progress (client-side tracking)
+      allow create, update: if isOwner(userId);
+      allow delete: if isAdmin();
+    }
+    
+    // 4. Swing Submissions
+    match /kp_elite_swing_submissions/{docId} {
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow read, update: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // 5. Companions (Read-only for students, admins can write)
+    match /kp_elite_companions/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // 6. Session History & Bookmarks
+    match /kp_elite_session_history/{docId} {
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    match /kp_elite_bookmarks/{docId} {
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    // Deny all other collections by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -76,7 +76,7 @@ export default function StudentLayout({
               <Flame className="size-4 text-orange-400 fill-orange-400 animate-pulse" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white">3-Day Streak</p>
+              <p className="text-xs font-bold text-white">{profile?.streakDays || 0}-Day Streak</p>
               <p className="text-[10px] text-gray-400">Consistency Goal</p>
             </div>
           </div>
