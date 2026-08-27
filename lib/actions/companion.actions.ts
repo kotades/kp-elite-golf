@@ -253,12 +253,12 @@ export const getBookmarkedCompanions = async (userId: string) => {
       .get();
 
     if (snap.empty) {
-      return [defaultCompanions[0], defaultCompanions[1]];
+      return [];
     }
 
     const companionIds = snap.docs.map((d) => d.data().companionId);
     return defaultCompanions.filter((c) => companionIds.includes(c.id));
   } catch (err) {
-    return [defaultCompanions[0], defaultCompanions[1]];
+    return [];
   }
 };

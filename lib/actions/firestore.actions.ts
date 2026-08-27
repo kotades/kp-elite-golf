@@ -116,49 +116,7 @@ export const getSwingSubmissions = async (userId: string): Promise<SwingSubmissi
     const snap = await getDocs(q);
 
     if (snap.empty) {
-      // Return default curated submissions for rich UI preview
-      return [
-        {
-          id: "sub-1",
-          studentId: userId,
-          studentName: "Jordan Miller",
-          clubUsed: "7-Iron (Face-On)",
-          viewAngle: "Face-On",
-          date: "Yesterday at 4:15 PM",
-          status: "Coach Analyzed",
-          videoUrl: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&q=85",
-          aiMetrics: {
-            tempoRatio: "3.1 : 1",
-            backswingAngle: 92,
-            hipRotationImpact: 44,
-            clubheadSpeedMph: 88.2,
-            launchAngleDeg: 16.2,
-            pathTendency: "Inside-Out",
-          },
-          coachNotes:
-            "Great hip rotation! Focus on keeping the trail wrist in extension for 0.1s longer before impact.",
-          assignedDrill: "Split-Hand Impact Compression",
-        },
-        {
-          id: "sub-2",
-          studentId: userId,
-          studentName: "Jordan Miller",
-          clubUsed: "Driver (Down-the-Line)",
-          viewAngle: "Down-the-Line",
-          date: "Aug 21, 2026",
-          status: "Pending AI Review",
-          videoUrl: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=85",
-          aiMetrics: {
-            tempoRatio: "2.9 : 1",
-            backswingAngle: 104,
-            hipRotationImpact: 38,
-            clubheadSpeedMph: 107.5,
-            launchAngleDeg: 12.8,
-            pathTendency: "Square",
-          },
-          coachNotes: "Processing 240 fps kinematic sequencing and spine angle tilt...",
-        },
-      ];
+      return [];
     }
 
     return snap.docs.map((d) => ({
