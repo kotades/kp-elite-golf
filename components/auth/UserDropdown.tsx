@@ -40,9 +40,10 @@ export default function UserDropdown() {
   const handleSignOut = async () => {
     try {
       await logout();
-      router.push("/");
+      window.location.href = "/";
     } catch (err) {
       console.error("Sign out error:", err);
+      window.location.href = "/";
     }
   };
 

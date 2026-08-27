@@ -52,14 +52,14 @@ export default function StudentSearchPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-xs font-semibold text-[#D4AF37] uppercase tracking-wider">
-          <Compass className="size-4" />
+          <Compass className="size-4 shrink-0" />
           <span>Curriculum & Drill Explorer</span>
         </div>
-        <h1 className="font-serif text-3xl font-bold text-white">
+        <h1 className="font-serif text-xl sm:text-3xl font-bold text-white tracking-tight break-words">
           Search Lessons, Drills & Biomechanics Cues
         </h1>
         <p className="text-xs sm:text-sm text-gray-400">
@@ -68,24 +68,24 @@ export default function StudentSearchPage() {
       </div>
 
       {/* Search Input and Filter Pills */}
-      <div className="p-5 rounded-2xl bg-[#161B22] border border-[#30363D] space-y-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#161B22] border border-[#30363D] space-y-4 max-w-full">
         <div className="relative w-full">
-          <Search className="size-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="size-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 shrink-0" />
           <input
             type="text"
-            placeholder="Search by keyword, e.g., 'shallow', 'hip rotation', 'pitching', 'lag putting'..."
+            placeholder="Search by keyword, e.g., 'shallow', 'hip rotation'..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37]"
+            className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0D1117] border border-[#30363D] text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37]"
           />
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none max-w-full flex-nowrap shrink-0">
           {tags.map((tag) => (
             <button
               key={tag}
               onClick={() => setSelectedTag(tag)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer ${
                 selectedTag === tag
                   ? "bg-[#D4AF37] text-[#0B2B1F]"
                   : "bg-[#0D1117] text-gray-400 hover:text-white border border-[#30363D]"
@@ -98,7 +98,7 @@ export default function StudentSearchPage() {
       </div>
 
       {/* Results Count */}
-      <div className="flex items-center justify-between text-xs text-gray-400">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 text-xs text-gray-400">
         <span>Found {filteredLessons.length} lessons and drills</span>
         <span className="font-mono text-[#D4AF37]">90+ Total Drills in Academy</span>
       </div>

@@ -160,7 +160,7 @@ export default function FAQSection() {
 
               <Link href="/sign-in?plan=practice-library">
                 <Button className="w-full sm:w-auto bg-[#161B22] hover:bg-[#1F242C] text-white border border-[#30363D] text-sm font-semibold px-6 py-3.5 rounded-xl">
-                  Start $49/mo Free Trial
+                  Enroll in Practice Library
                 </Button>
               </Link>
             </div>

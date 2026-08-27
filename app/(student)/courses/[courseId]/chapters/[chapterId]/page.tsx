@@ -117,14 +117,14 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
 
           {/* Tabbed Lesson Drawer */}
           <Tabs defaultValue="checkpoints" className="w-full">
-            <TabsList className="w-full grid grid-cols-3 bg-[#161B22] p-1 border border-[#30363D] rounded-2xl h-12">
-              <TabsTrigger value="checkpoints" className="text-xs font-bold">
+            <TabsList className="w-full flex items-center justify-start sm:justify-stretch overflow-x-auto bg-[#161B22] p-1 border border-[#30363D] rounded-2xl h-auto min-h-[48px] scrollbar-none gap-1">
+              <TabsTrigger value="checkpoints" className="text-[11px] sm:text-xs font-bold whitespace-nowrap px-3 py-2 flex-1 shrink-0">
                 Anatomical Checkpoints
               </TabsTrigger>
-              <TabsTrigger value="drills" className="text-xs font-bold">
+              <TabsTrigger value="drills" className="text-[11px] sm:text-xs font-bold whitespace-nowrap px-3 py-2 flex-1 shrink-0">
                 Prescribed Range Drills
               </TabsTrigger>
-              <TabsTrigger value="ai-coach" className="text-xs font-bold">
+              <TabsTrigger value="ai-coach" className="text-[11px] sm:text-xs font-bold whitespace-nowrap px-3 py-2 flex-1 shrink-0">
                 AI Coach Guidance
               </TabsTrigger>
             </TabsList>

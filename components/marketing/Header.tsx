@@ -145,7 +145,7 @@ export default function Header() {
 
         {/* Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-b border-[#30363D] bg-[#0D1117]/95 backdrop-blur-2xl px-6 py-6 space-y-4 animate-in slide-in-from-top-5 duration-200">
+          <div className="lg:hidden border-b border-[#30363D] bg-[#0D1117]/95 backdrop-blur-2xl px-6 py-6 space-y-4 max-h-[85vh] overflow-y-auto scrollbar-none animate-in slide-in-from-top-5 duration-200">
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
                 <Link

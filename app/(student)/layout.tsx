@@ -162,7 +162,7 @@ export default function StudentLayout({
                   <Menu className="size-5" />
                 </button>
               </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-72 bg-[#0D1117] border-[#30363D]">
+              <SheetContent side="left" className="p-0 w-72 bg-[#0D1117] border-[#30363D] overflow-y-auto max-h-screen">
                 <SheetHeader className="sr-only">
                   <SheetTitle>Student Navigation</SheetTitle>
                 </SheetHeader>
