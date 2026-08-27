@@ -26,6 +26,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import UserDropdown from "@/components/auth/UserDropdown";
+import { useAuth } from "@/hooks/useAuth";
 import CommandMenu from "@/components/student/CommandMenu";
 
 export default function StudentLayout({
@@ -35,6 +36,7 @@ export default function StudentLayout({
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { profile } = useAuth();
 
   const navItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
