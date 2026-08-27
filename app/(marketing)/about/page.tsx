@@ -85,7 +85,7 @@ export default function AboutPage() {
               <span className="gold-gradient-text">3D Biomechanics</span>
             </h1>
             <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-              Founded by PGA Master Instructor Kevin Palmer, KP Elite Golf Academy was born from a simple conviction: every golfer possesses a repeatable, effortless swing waiting to be unlocked through kinematic science rather than guesswork.
+              Founded by Head LPGA Master Coach Elena Rostova, KP Elite Golf Academy was born from a simple conviction: every golfer possesses a repeatable, effortless swing waiting to be unlocked through 3D kinematic science rather than guesswork.
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
               <Link href="/courses">
@@ -104,15 +104,15 @@ export default function AboutPage() {
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#D4AF37]/40 shadow-2xl">
               <Image
-                src="/coaches/coach-1.jpg"
-                alt="Kevin Palmer in the Golf Biomechanics Lab"
+                src="/coaches/coach-elena.jpg"
+                alt="Elena Rostova in the Golf Biomechanics Lab"
                 fill
                 className="object-cover"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D1117] via-transparent to-transparent opacity-60" />
               <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-[#0D1117]/90 backdrop-blur-md border border-[#30363D]">
-                <p className="font-serif font-bold text-sm text-white">Kevin Palmer, PGA Master</p>
+                <p className="font-serif font-bold text-sm text-white">Elena Rostova, LPGA Master</p>
                 <p className="text-xs text-[#D4AF37]">Founder & Head of Instruction</p>
               </div>
             </div>

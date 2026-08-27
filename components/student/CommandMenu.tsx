@@ -47,13 +47,14 @@ export default function CommandMenu() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-3 px-3.5 py-1.5 rounded-xl bg-[#161B22] border border-[#30363D] hover:border-[#D4AF37]/50 text-gray-400 hover:text-white text-xs transition-all w-48 sm:w-64 justify-between"
+        className="flex items-center gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-[#161B22] border border-[#30363D] hover:border-[#D4AF37]/50 text-gray-400 hover:text-white text-xs transition-all w-auto max-w-[140px] sm:max-w-none sm:w-64 justify-between cursor-pointer"
       >
         <div className="flex items-center gap-2">
-          <Search className="size-3.5 text-[#D4AF37]" />
-          <span>Quick search...</span>
+          <Search className="size-3.5 text-[#D4AF37] shrink-0" />
+          <span className="hidden sm:inline">Quick search...</span>
+          <span className="inline sm:hidden font-medium">Search</span>
         </div>
-        <kbd className="px-1.5 py-0.5 rounded bg-[#0D1117] border border-[#30363D] text-[10px] font-mono text-gray-400">
+        <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-[#0D1117] border border-[#30363D] text-[10px] font-mono text-gray-400">
           ⌘K
         </kbd>
       </button>

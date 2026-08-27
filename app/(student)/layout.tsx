@@ -150,9 +150,9 @@ export default function StudentLayout({
       {/* Main Content Area with Sticky Header */}
       <div className="flex-1 lg:pl-64 flex flex-col min-h-screen">
         {/* Sticky Top Bar */}
-        <header className="sticky top-0 z-30 h-16 border-b border-[#30363D] bg-[#0D1117]/85 backdrop-blur-xl px-4 sm:px-8 flex items-center justify-between">
+        <header className="sticky top-0 z-30 h-16 border-b border-[#30363D] bg-[#0D1117]/85 backdrop-blur-xl px-3 sm:px-8 flex items-center justify-between gap-2 sm:gap-4 overflow-x-hidden">
           {/* Mobile Sheet Trigger */}
-          <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 lg:hidden">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <button
@@ -170,16 +170,16 @@ export default function StudentLayout({
               </SheetContent>
             </Sheet>
 
-            <span className="font-serif font-bold text-sm text-white">KP ELITE</span>
+            <span className="font-serif font-bold text-xs sm:text-sm text-white tracking-wider whitespace-nowrap">KP ELITE</span>
           </div>
 
           {/* Global Search Command Menu */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <CommandMenu />
           </div>
 
-          {/* User Profile & Actions */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          {/* AI Coach Quick Badge & User Dropdown */}
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <Link
               href="/coach"
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#154734]/80 border border-[#D4AF37]/40 text-xs font-semibold text-[#D4AF37] hover:bg-[#154734] transition-colors"
@@ -192,8 +192,8 @@ export default function StudentLayout({
           </div>
         </header>
 
-        {/* Dynamic Page Content */}
-        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-8">
+        {/* Main Viewport Container */}
+        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-8 overflow-x-hidden">
           {children}
         </main>
       </div>
