@@ -29,7 +29,7 @@ export default function HeroVideoDialog() {
 
       <DialogContent className="max-w-4xl bg-[#0D1117] border-[#30363D] p-0 overflow-hidden text-white">
         <DialogHeader className="p-4 bg-[#161B22] border-b border-[#30363D]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pr-8">
             <DialogTitle className="flex items-center gap-2 text-base font-serif text-[#D4AF37]">
               <Sparkles className="size-4" />
               KP Elite Golf Training • 2026 Biomechanics & Academy Preview
@@ -39,7 +39,7 @@ export default function HeroVideoDialog() {
                 setMuted(!muted);
                 if (videoRef.current) videoRef.current.muted = !muted;
               }}
-              className="p-1.5 rounded-lg hover:bg-[#30363D] transition-colors"
+              className="p-1.5 rounded-lg hover:bg-[#30363D] transition-colors mr-2"
               aria-label={muted ? "Unmute" : "Mute"}
             >
               {muted ? <VolumeX className="size-4 text-gray-400" /> : <Volume2 className="size-4 text-gray-400" />}
