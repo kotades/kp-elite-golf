@@ -1,5 +1,5 @@
+"use server";
 import { COLLECTIONS } from "@/lib/firebase/constants";
-'use server';
 
 import { revalidatePath } from "next/cache";
 import { adminDb } from "@/lib/firebase/admin";
