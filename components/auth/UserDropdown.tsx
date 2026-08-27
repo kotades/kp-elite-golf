@@ -25,8 +25,11 @@ import {
   ChevronDown,
 } from "lucide-react";
 
+import { useRouter } from "next/navigation";
+
 export default function UserDropdown() {
   const { user, profile, logout } = useAuth();
+  const router = useRouter();
 
   if (!user) return null;
 
@@ -37,6 +40,7 @@ export default function UserDropdown() {
   const handleSignOut = async () => {
     try {
       await logout();
+      router.push("/");
     } catch (err) {
       console.error("Sign out error:", err);
     }
