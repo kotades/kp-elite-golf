@@ -104,7 +104,7 @@ export default function AboutPage() {
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#D4AF37]/40 shadow-2xl">
               <Image
-                src="/coaches/coach-elena.jpg"
+                src="/coaches/coach-1-elena-head-lpga.jpg"
                 alt="Elena Rostova in the Golf Biomechanics Lab"
                 fill
                 className="object-cover"
