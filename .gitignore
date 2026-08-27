@@ -46,3 +46,5 @@ next-env.d.ts
 # Sentry Config File
 .env.sentry-build-plugin
 \ntest-results/\nplaywright-report/\nblob-report/\n.idea/\n
+service-account*.json
+firebase-adminsdk*.json

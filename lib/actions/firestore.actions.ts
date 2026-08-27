@@ -175,30 +175,22 @@ export const getSwingSubmissions = async (userId: string): Promise<SwingSubmissi
 export const getUserProgress = async (userId: string): Promise<StudentProgress> => {
   const defaultProgress: StudentProgress = {
     userId,
-    currentModuleId: "full-swing-mechanics",
-    currentMilestone: "Consistency",
-    completedLessons: ["m1-c1-l1", "m1-c1-l2", "m2-c1-l1", "m3-c1-l1", "m4-c1-l1", "m4-c1-l2"],
-    overallScore: 68,
+    currentModuleId: "golf-basics-fundamentals",
+    currentMilestone: "Foundation",
+    completedLessons: [],
+    overallScore: 0,
     skillRatings: {
-      grip: 88,
-      setup: 92,
-      fullSwing: 74,
-      putting: 82,
-      chipping: 79,
-      courseManagement: 70,
+      grip: 0,
+      setup: 0,
+      fullSwing: 0,
+      putting: 0,
+      chipping: 0,
+      courseManagement: 0,
     },
-    handicapStart: 18.2,
-    handicapCurrent: 12.4,
-    swingsAnalyzed: 14,
-    upcomingLessons: [
-      {
-        id: "priv-1",
-        date: "Tomorrow",
-        time: "10:00 AM EST",
-        coach: "Kevin Palmer (PGA Master)",
-        topic: "Driver Dispersion & Launch Optimization",
-      },
-    ],
+    handicapStart: 0,
+    handicapCurrent: 0,
+    swingsAnalyzed: 0,
+    upcomingLessons: [],
   };
 
   try {

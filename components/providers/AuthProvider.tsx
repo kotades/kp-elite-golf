@@ -55,9 +55,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: firebaseUser.email,
           displayName: data.displayName || firebaseUser.displayName || "Tour Golfer",
           photoURL: data.photoURL || firebaseUser.photoURL,
-          handicap: data.handicap ?? 12.4,
+          handicap: data.handicap ?? 0,
           role: data.role || "student",
-          streakDays: data.streakDays ?? 3,
+          streakDays: data.streakDays ?? 0,
         });
       } else {
         const defaultProfile: UserProfile = {
@@ -65,9 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: firebaseUser.email,
           displayName: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split("@")[0] : "Tour Golfer"),
           photoURL: firebaseUser.photoURL || "/coaches/coach-1.jpg",
-          handicap: 12.4,
+          handicap: 0,
           role: "student",
-          streakDays: 3,
+          streakDays: 0,
         };
 
         await setDoc(
@@ -90,9 +90,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: firebaseUser.email,
         displayName: firebaseUser.displayName || "Tour Golfer",
         photoURL: firebaseUser.photoURL,
-        handicap: 12.4,
+        handicap: 0,
         role: "student",
-        streakDays: 3,
+        streakDays: 0,
       });
     }
   };
