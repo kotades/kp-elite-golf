@@ -1,3 +1,4 @@
+import { COLLECTIONS } from "@/lib/firebase/constants";
 import { db } from "@/lib/firebase/client";
 import {
   collection,
@@ -21,7 +22,7 @@ import { IntakeApplication, SwingSubmission, StudentProgress } from "@/types";
 // 1. Intake Applications
 export const createIntakeApplication = async (formData: Partial<IntakeApplication>) => {
   try {
-    const colRef = collection(db, "intake_applications");
+    const colRef = collection(db, COLLECTIONS.INTAKE_APPLICATIONS);
     const docRef = await addDoc(colRef, {
       ...formData,
       status: "pending",
@@ -36,7 +37,7 @@ export const createIntakeApplication = async (formData: Partial<IntakeApplicatio
 
 export const getIntakeApplications = async () => {
   try {
-    const colRef = collection(db, "intake_applications");
+    const colRef = collection(db, COLLECTIONS.INTAKE_APPLICATIONS);
     const q = query(colRef, orderBy("submittedAt", "desc"));
     const snap = await getDocs(q);
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
@@ -58,7 +59,7 @@ export const submitSwingAnalysis = async (
   }
 ) => {
   try {
-    const colRef = collection(db, "swing_submissions");
+    const colRef = collection(db, COLLECTIONS.SWING_SUBMISSIONS);
     const newSubmission = {
       studentId: userId,
       studentName: data.studentName || "PGA Student Golfer",
@@ -87,7 +88,7 @@ export const submitSwingAnalysis = async (
 
     // Update user profile swings analyzed count
     try {
-      const userProgressRef = doc(db, "student_progress", userId);
+      const userProgressRef = doc(db, COLLECTIONS.STUDENT_PROGRESS, userId);
       await setDoc(
         userProgressRef,
         {
@@ -107,7 +108,7 @@ export const submitSwingAnalysis = async (
 
 export const getSwingSubmissions = async (userId: string): Promise<SwingSubmission[]> => {
   try {
-    const colRef = collection(db, "swing_submissions");
+    const colRef = collection(db, COLLECTIONS.SWING_SUBMISSIONS);
     const q = query(
       colRef,
       where("studentId", "==", userId)
@@ -201,7 +202,7 @@ export const getUserProgress = async (userId: string): Promise<StudentProgress> 
   };
 
   try {
-    const progressDocRef = doc(db, "student_progress", userId);
+    const progressDocRef = doc(db, COLLECTIONS.STUDENT_PROGRESS, userId);
     const snap = await getDoc(progressDocRef);
 
     if (snap.exists()) {
@@ -226,7 +227,7 @@ export const updateChapterProgress = async (
   isCompleted: boolean = true
 ) => {
   try {
-    const progressDocRef = doc(db, "student_progress", userId);
+    const progressDocRef = doc(db, COLLECTIONS.STUDENT_PROGRESS, userId);
     await setDoc(
       progressDocRef,
       {
@@ -254,7 +255,7 @@ export const saveSessionHistory = async (
   durationMinutes: number = 5
 ) => {
   try {
-    const colRef = collection(db, "session_history");
+    const colRef = collection(db, COLLECTIONS.SESSION_HISTORY);
     const docRef = await addDoc(colRef, {
       userId,
       companionId,
@@ -272,7 +273,7 @@ export const saveSessionHistory = async (
 
 export const getUserSessions = async (userId: string, limitCount = 10) => {
   try {
-    const colRef = collection(db, "session_history");
+    const colRef = collection(db, COLLECTIONS.SESSION_HISTORY);
     const q = query(
       colRef,
       where("userId", "==", userId),

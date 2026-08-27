@@ -1,3 +1,4 @@
+import { COLLECTIONS } from "@/lib/firebase/constants";
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -44,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchOrCreateUserProfile = async (firebaseUser: User) => {
     try {
-      const userDocRef = doc(db, "users", firebaseUser.uid);
+      const userDocRef = doc(db, COLLECTIONS.USERS, firebaseUser.uid);
       const snap = await getDoc(userDocRef);
 
       if (snap.exists()) {

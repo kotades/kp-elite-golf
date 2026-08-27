@@ -1,3 +1,4 @@
+import { COLLECTIONS } from "@/lib/firebase/constants";
 'use server';
 
 import { revalidatePath } from "next/cache";
@@ -70,7 +71,7 @@ const defaultCompanions = [
 
 export const createCompanion = async (formData: CreateCompanion) => {
   try {
-    const docRef = await adminDb.collection("companions").add({
+    const docRef = await adminDb.collection(COLLECTIONS.COMPANIONS).add({
       ...formData,
       createdAt: new Date().toISOString(),
     });
@@ -88,7 +89,7 @@ export const getAllCompanions = async ({
   topic,
 }: GetAllCompanions) => {
   try {
-    let query = adminDb.collection("companions").limit(limit);
+    let query = adminDb.collection(COLLECTIONS.COMPANIONS).limit(limit);
     const snap = await query.get();
 
     let list: any[] = [];
@@ -128,7 +129,7 @@ export const getCompanion = async (id: string): Promise<Companion> => {
     const defaultFound = defaultCompanions.find((c) => c.id === id);
     if (defaultFound) return defaultFound;
 
-    const doc = await adminDb.collection("companions").doc(id).get();
+    const doc = await adminDb.collection(COLLECTIONS.COMPANIONS).doc(id).get();
     if (doc.exists) {
       return { id: doc.id, ...doc.data() } as Companion;
     }
@@ -141,7 +142,7 @@ export const getCompanion = async (id: string): Promise<Companion> => {
 
 export const addToSessionHistory = async (companionId: string, userId: string = "student-user") => {
   try {
-    const docRef = await adminDb.collection("session_history").add({
+    const docRef = await adminDb.collection(COLLECTIONS.SESSION_HISTORY).add({
       companionId,
       userId,
       createdAt: new Date().toISOString(),
@@ -156,7 +157,7 @@ export const addToSessionHistory = async (companionId: string, userId: string = 
 export const getRecentSessions = async (limitCount = 10) => {
   try {
     const snap = await adminDb
-      .collection("session_history")
+      .collection(COLLECTIONS.SESSION_HISTORY)
       .orderBy("createdAt", "desc")
       .limit(limitCount)
       .get();
@@ -175,7 +176,7 @@ export const getRecentSessions = async (limitCount = 10) => {
 export const getUserSessions = async (userId: string, limitCount = 10) => {
   try {
     const snap = await adminDb
-      .collection("session_history")
+      .collection(COLLECTIONS.SESSION_HISTORY)
       .where("userId", "==", userId)
       .limit(limitCount)
       .get();
@@ -194,7 +195,7 @@ export const getUserSessions = async (userId: string, limitCount = 10) => {
 export const getUserCompanions = async (userId: string) => {
   try {
     const snap = await adminDb
-      .collection("companions")
+      .collection(COLLECTIONS.COMPANIONS)
       .where("author", "==", userId)
       .get();
 
@@ -215,7 +216,7 @@ export const newCompanionPermissions = async () => {
 // Bookmarks
 export const addBookmark = async (companionId: string, path: string, userId: string = "student-user") => {
   try {
-    await adminDb.collection("bookmarks").add({
+    await adminDb.collection(COLLECTIONS.BOOKMARKS).add({
       companionId,
       userId,
       createdAt: new Date().toISOString(),
@@ -229,7 +230,7 @@ export const addBookmark = async (companionId: string, path: string, userId: str
 export const removeBookmark = async (companionId: string, path: string, userId: string = "student-user") => {
   try {
     const snap = await adminDb
-      .collection("bookmarks")
+      .collection(COLLECTIONS.BOOKMARKS)
       .where("companionId", "==", companionId)
       .where("userId", "==", userId)
       .get();
@@ -247,7 +248,7 @@ export const removeBookmark = async (companionId: string, path: string, userId: 
 export const getBookmarkedCompanions = async (userId: string) => {
   try {
     const snap = await adminDb
-      .collection("bookmarks")
+      .collection(COLLECTIONS.BOOKMARKS)
       .where("userId", "==", userId)
       .get();
 
