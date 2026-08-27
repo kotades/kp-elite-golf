@@ -12,6 +12,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { parseFirebaseError } from "@/lib/firebase/errorParser";
 import { Trophy, Mail, Lock, User as UserIcon, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 interface AuthModalProps {
@@ -53,7 +55,9 @@ export default function AuthModal({
       router.push("/dashboard");
     } catch (err: any) {
       console.error("Google sign in error:", err);
-      setError(err.message || "Failed to sign in with Google.");
+      const parsed = parseFirebaseError(err);
+      setError(parsed.message);
+      toast.error(parsed.title, { description: parsed.message });
     } finally {
       setLoading(false);
     }
@@ -69,11 +73,9 @@ export default function AuthModal({
       router.push("/dashboard");
     } catch (err: any) {
       console.error("Email sign in error:", err);
-      if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
-        setError("Invalid email or password.");
-      } else {
-        setError(err.message || "Failed to sign in. Please try again.");
-      }
+      const parsed = parseFirebaseError(err);
+      setError(parsed.message);
+      toast.error(parsed.title, { description: parsed.message });
     } finally {
       setLoading(false);
     }
@@ -86,7 +88,6 @@ export default function AuthModal({
     try {
       if (password.length < 6) {
         setError("Password must be at least 6 characters long.");
-        setLoading(false);
         return;
       }
       await signUpWithEmail(email, password, name);
@@ -98,13 +99,9 @@ export default function AuthModal({
       }, 1000);
     } catch (err: any) {
       console.error("Email sign up error:", err);
-      if (err.code === "auth/email-already-in-use") {
-        setError("An account with this email already exists. Please sign in instead.");
-      } else if (err.code === "auth/weak-password") {
-        setError("Password is too weak. Please use at least 6 characters.");
-      } else {
-        setError(err.message || "Failed to create account. Please try again.");
-      }
+      const parsed = parseFirebaseError(err);
+      setError(parsed.message);
+      toast.error(parsed.title, { description: parsed.message });
     } finally {
       setLoading(false);
     }
