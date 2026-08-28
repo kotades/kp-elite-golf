@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 
 interface RadialRingProps {
@@ -8,6 +8,12 @@ interface RadialRingProps {
 }
 
 export default function RadialProgressRing({ progress }: RadialRingProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const data = [
     {
       name: "Completion",
@@ -15,6 +21,15 @@ export default function RadialProgressRing({ progress }: RadialRingProps) {
       fill: "#D4AF37",
     },
   ];
+
+  if (!mounted) {
+    return (
+      <div className="relative size-32 mx-auto flex flex-col items-center justify-center rounded-full border-4 border-[#1F242C]">
+        <span className="font-mono text-xl font-bold text-white">{progress}%</span>
+        <span className="text-[9px] uppercase font-bold text-gray-400">Foundation</span>
+      </div>
+    );
+  }
 
   return (
     <div className="relative size-32 mx-auto flex items-center justify-center">
