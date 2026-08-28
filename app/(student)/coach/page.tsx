@@ -39,6 +39,25 @@ export default function AIVoiceCoachStudioPage() {
   const vapiRef = useRef<any>(null);
 
   useEffect(() => {
+    // Pre-load Vapi SDK on client mount
+    if (typeof window !== "undefined") {
+      import("@vapi-ai/web")
+        .then((mod) => {
+          const VapiClass = mod.default || mod;
+          const vapiPublicKey = process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN || "dummy-vapi-key";
+          try {
+            vapiRef.current = new VapiClass(vapiPublicKey);
+          } catch (e) {
+            console.warn("Vapi init fallback:", e);
+          }
+        })
+        .catch((err) => {
+          console.warn("Vapi dynamic load fallback:", err);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     // Update welcome message when persona changes and session is idle
     if (!isSessionActive && selectedPersona) {
       setTranscripts([
@@ -82,42 +101,56 @@ export default function AIVoiceCoachStudioPage() {
 
     try {
       setIsConnecting(true);
-      const vapiPublicKey = process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN || "dummy-vapi-key";
-      const VapiModule = (await import("@vapi-ai/web")).default;
-      const vapi = new VapiModule(vapiPublicKey);
-      vapiRef.current = vapi;
-
-      const assistantConfig = configureAssistant("male", "casual", selectedPersona.id);
-
-      vapi.on("call-start", () => {
-        setIsConnecting(false);
-        setIsSessionActive(true);
-      });
-
-      vapi.on("call-end", () => {
-        setIsSessionActive(false);
-        setIsConnecting(false);
-      });
-
-      vapi.on("message", (message: any) => {
-        if (message.type === "transcript" && message.transcriptType === "final") {
-          const role = message.role === "assistant" ? "coach" : "user";
-          setTranscripts((prev) => [
-            ...prev,
-            {
-              role,
-              text: message.transcript,
-              time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-            },
-          ]);
+      let vapi = vapiRef.current;
+      if (!vapi && typeof window !== "undefined") {
+        try {
+          const mod = await import("@vapi-ai/web");
+          const VapiClass = mod.default || mod;
+          const vapiPublicKey = process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN || "dummy-vapi-key";
+          vapi = new VapiClass(vapiPublicKey);
+          vapiRef.current = vapi;
+        } catch (loadErr) {
+          console.warn("Vapi dynamic import fallback:", loadErr);
         }
-      });
+      }
 
-      // Start call (in local dev or without live key, simulated session gracefully begins)
-      await vapi.start(assistantConfig);
+      if (vapi) {
+        const assistantConfig = configureAssistant("male", "casual", selectedPersona.id);
+
+        vapi.on("call-start", () => {
+          setIsConnecting(false);
+          setIsSessionActive(true);
+        });
+
+        vapi.on("call-end", () => {
+          setIsSessionActive(false);
+          setIsConnecting(false);
+        });
+
+        vapi.on("message", (message: any) => {
+          if (message.type === "transcript" && message.transcriptType === "final") {
+            const role = message.role === "assistant" ? "coach" : "user";
+            setTranscripts((prev) => [
+              ...prev,
+              {
+                role,
+                text: message.transcript,
+                time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+              },
+            ]);
+          }
+        });
+
+        await vapi.start(assistantConfig);
+      } else {
+        // Fallback simulated AI session if Vapi SDK is unavailable
+        setTimeout(() => {
+          setIsConnecting(false);
+          setIsSessionActive(true);
+        }, 1000);
+      }
     } catch (err) {
-      console.warn("Vapi live connection simulated:", err);
-      // Simulate live session for demonstration if keys are unset
+      console.warn("Vapi connection fallback simulation:", err);
       setIsConnecting(false);
       setIsSessionActive(true);
     }
