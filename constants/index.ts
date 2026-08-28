@@ -770,6 +770,31 @@ export const aiGolfPersonas: AIVoicePersona[] = [
   },
 ];
 
+export const subjectsColors: Record<string, string> = {
+  "golf-basics": "#154734",
+  equipment: "#0B2B1F",
+  "grip-setup": "#D4AF37",
+  "full-swing": "#1E5D46",
+  "short-game": "#2E7D32",
+  "bunker-recovery": "#D81B60",
+  "course-management": "#1565C0",
+  "etiquette-safety": "#6A1B9A",
+  "practice-plan": "#E65100",
+  biomechanics: "#00838F",
+  "putting-mastery": "#283593",
+};
+
+export const voices = {
+  male: {
+    casual: "2BJW5coyhAzSr8STdHbE",
+    formal: "c6SfcYrb2t09NHXiT80T",
+  },
+  female: {
+    casual: "ZIlrSGI4jZqobxRKprJz",
+    formal: "ZIlrSGI4jZqobxRKprJz",
+  },
+};
+
 export const galleryItems = [
   { id: "g1", title: "Driver Biomechanics Motion Track", category: "Biomechanics Lab", image: "/courses/course-1.jpg", description: "3D high-speed capture analyzing pelvis rotation and shaft lag angle at 240 fps." },
   { id: "g2", title: "Greenside Wedge Matrix Clinic", category: "Short Game", image: "/courses/course-3.jpg", description: "Mastering spin generation and low-point turf interaction on tight championship lies." },
@@ -833,28 +858,3 @@ export const subjects = [
   "biomechanics",
   "putting-mastery",
 ];
-
-export const subjectsColors: Record<string, string> = {
-  "golf-basics": "#154734",
-  "equipment": "#2C5E43",
-  "grip-setup": "#0B2B1F",
-  "full-swing": "#0B2B1F",
-  "short-game": "#154734",
-  "bunker-recovery": "#B8972E",
-  "course-management": "#D4AF37",
-  "etiquette-safety": "#1F242C",
-  "practice-plan": "#0B2B1F",
-  "biomechanics": "#154734",
-  "putting-mastery": "#D4AF37",
-};
-
-export const voices = {
-  male: {
-    casual: "2BJW5coyhAzSr8STdHbE",
-    formal: "c6SfcYrb2t09NHXiT80T",
-  },
-  female: {
-    casual: "ZIlrSGI4jZqobxRKprJz",
-    formal: "sarah",
-  },
-};

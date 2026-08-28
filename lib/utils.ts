@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getSubjectColor = (subject: string): string => {
-  return subjectsColors[subject] || "#0B2B1F";
+  return (subjectsColors && subjectsColors[subject]) || "#0B2B1F";
 };
 
 export const configureAssistant = (voice: string, style: string, coachPersonaId?: string): CreateAssistantDTO => {

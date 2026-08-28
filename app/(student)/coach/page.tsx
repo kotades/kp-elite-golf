@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { aiGolfPersonas } from "@/constants";
 import { configureAssistant } from "@/lib/utils";
-import Vapi from "@vapi-ai/web";
 import {
   Mic,
   MicOff,
@@ -32,20 +31,20 @@ export default function AIVoiceCoachStudioPage() {
   const [transcripts, setTranscripts] = useState<{ role: "user" | "coach"; text: string; time: string }[]>([
     {
       role: "coach",
-      text: selectedPersona.welcomeMessage,
+      text: selectedPersona?.welcomeMessage || "Welcome to KP Elite Golf Academy!",
       time: "Just now",
     },
   ]);
 
-  const vapiRef = useRef<Vapi | null>(null);
+  const vapiRef = useRef<any>(null);
 
   useEffect(() => {
     // Update welcome message when persona changes and session is idle
-    if (!isSessionActive) {
+    if (!isSessionActive && selectedPersona) {
       setTranscripts([
         {
           role: "coach",
-          text: selectedPersona.welcomeMessage,
+          text: selectedPersona.welcomeMessage || "Welcome to KP Elite Golf Academy!",
           time: "Just now",
         },
       ]);
@@ -62,7 +61,7 @@ export default function AIVoiceCoachStudioPage() {
     setIsConnecting(false);
 
     // Save session logs to Firestore
-    if (user) {
+    if (user && selectedPersona) {
       try {
         await saveSessionHistory(user.uid, selectedPersona.id, transcripts, 5);
       } catch (err) {
@@ -84,7 +83,8 @@ export default function AIVoiceCoachStudioPage() {
     try {
       setIsConnecting(true);
       const vapiPublicKey = process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN || "dummy-vapi-key";
-      const vapi = new Vapi(vapiPublicKey);
+      const VapiModule = (await import("@vapi-ai/web")).default;
+      const vapi = new VapiModule(vapiPublicKey);
       vapiRef.current = vapi;
 
       const assistantConfig = configureAssistant("male", "casual", selectedPersona.id);
