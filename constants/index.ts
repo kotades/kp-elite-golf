@@ -617,7 +617,7 @@ export const pricingTiers: PricingTier[] = [
   {
     id: "practice-library",
     name: "Practice Library",
-    price: "$4,900",
+    price: "$49",
     period: "per month",
     description: "Ideal for the self-directed golfer wanting unlimited drill videos, on-demand curriculum, and AI swing reviews.",
     features: [
@@ -635,7 +635,7 @@ export const pricingTiers: PricingTier[] = [
     name: "8-Week Foundation Program",
     badge: "Most Popular / Flagship",
     price: "$7,200",
-    period: "per month",
+    period: "one-time enrollment",
     description: "Our world-renowned private coaching intensive designed to take you from initial setup to fully course-ready and single-digit trajectory.",
     popular: true,
     features: [
@@ -654,7 +654,7 @@ export const pricingTiers: PricingTier[] = [
     id: "vip-coaching",
     name: "VIP Tour Coaching",
     badge: "Elite Level",
-    price: "$8,900",
+    price: "$890",
     period: "per month",
     description: "For competitive amateurs, club champions, and junior tournament players demanding continuous PGA tour-grade mentorship.",
     features: [
