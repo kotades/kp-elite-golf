@@ -23,6 +23,8 @@ export interface UserProfile {
   handicap?: number;
   role?: "student" | "coach" | "admin";
   streakDays?: number;
+  subscribed?: boolean;
+  subscriptionTier?: string | null;
 }
 
 interface AuthContextType {
@@ -58,6 +60,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           handicap: data.handicap ?? 0,
           role: data.role || "student",
           streakDays: data.streakDays ?? 0,
+          subscribed: data.subscribed ?? false,
+          subscriptionTier: data.subscriptionTier || null,
         });
       } else {
         const defaultProfile: UserProfile = {
@@ -68,6 +72,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           handicap: 0,
           role: "student",
           streakDays: 0,
+          subscribed: false,
+          subscriptionTier: null,
         };
 
         await setDoc(
@@ -93,6 +99,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         handicap: 0,
         role: "student",
         streakDays: 0,
+        subscribed: false,
+        subscriptionTier: null,
       });
     }
   };

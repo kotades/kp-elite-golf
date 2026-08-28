@@ -28,6 +28,7 @@ import {
 import UserDropdown from "@/components/auth/UserDropdown";
 import { useAuth } from "@/hooks/useAuth";
 import CommandMenu from "@/components/student/CommandMenu";
+import SubscriptionBanner from "@/components/student/SubscriptionBanner";
 
 export default function StudentLayout({
   children,
@@ -191,6 +192,9 @@ export default function StudentLayout({
             <UserDropdown />
           </div>
         </header>
+
+        {/* Persistent Subscription Notice Banner for Unsubscribed Cadets */}
+        <SubscriptionBanner />
 
         {/* Main Viewport Container */}
         <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-8 overflow-x-hidden">

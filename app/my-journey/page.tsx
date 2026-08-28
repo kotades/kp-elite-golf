@@ -25,12 +25,14 @@ import RadialProgressRing from "@/components/student/RadialProgressRing";
 import { getUserProgress, getSwingSubmissions, getUserSessions } from "@/lib/actions/firestore.actions";
 import { StudentProgress, SwingSubmission } from "@/types";
 import AuthModal from "@/components/auth/AuthModal";
+import SubscriptionRequiredModal from "@/components/student/SubscriptionRequiredModal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/marketing/Footer";
 
 export default function MyJourneyPage() {
   const { user, profile, loading } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [subModalOpen, setSubModalOpen] = useState(false);
   const [progressData, setProgressData] = useState<StudentProgress | null>(null);
   const [submissions, setSubmissions] = useState<SwingSubmission[]>([]);
   const [sessions, setSessions] = useState<any[]>([]);
@@ -288,6 +290,11 @@ export default function MyJourneyPage() {
       </div>
 
       <AuthModal isOpen={authModalOpen} onOpenChange={setAuthModalOpen} />
+      <SubscriptionRequiredModal
+        isOpen={subModalOpen}
+        onOpenChange={setSubModalOpen}
+        actionAttempted="attend coaching sessions or access range warm-ups"
+      />
       </div>
       <Footer />
     </div>

@@ -84,6 +84,11 @@ export default function SwingUploadModal({
       return;
     }
 
+    if (!profile?.subscribed) {
+      setError("Subscription Required: Active PGA Academy membership is required to submit swing videos for PGA Master review.");
+      return;
+    }
+
     setError(null);
     setUploading(true);
     setProgress(10);

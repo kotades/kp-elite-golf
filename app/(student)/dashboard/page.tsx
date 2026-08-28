@@ -23,6 +23,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import RadialProgressRing from "@/components/student/RadialProgressRing";
 import SwingUploadModal from "@/components/student/SwingUploadModal";
+import SubscriptionRequiredModal from "@/components/student/SubscriptionRequiredModal";
 import { golfModules } from "@/constants";
 import { useAuth } from "@/hooks/useAuth";
 import { getSwingSubmissions, getUserProgress } from "@/lib/actions/firestore.actions";
@@ -31,8 +32,18 @@ import { SwingSubmission, StudentProgress } from "@/types";
 export default function StudentDashboardPage() {
   const { user, profile } = useAuth();
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [subModalOpen, setSubModalOpen] = useState(false);
+  const [actionAttempted, setActionAttempted] = useState("attend this class session");
   const [submissions, setSubmissions] = useState<SwingSubmission[]>([]);
   const [progressData, setProgressData] = useState<StudentProgress | null>(null);
+
+  const handleProtectedAction = (e: React.MouseEvent, actionName: string) => {
+    if (!profile?.subscribed) {
+      e.preventDefault();
+      setActionAttempted(actionName);
+      setSubModalOpen(true);
+    }
+  };
 
   const fetchDashboardData = async () => {
     const uid = user?.uid || "student-guest";
@@ -146,7 +157,7 @@ export default function StudentDashboardPage() {
                 <span>10m remaining in this session</span>
               </div>
 
-              <Link href={currentResume.link}>
+              <Link href={currentResume.link} onClick={(e) => handleProtectedAction(e, "resume this class lesson")}>
                 <Button className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-lg hover:scale-105 transition-all cursor-pointer flex items-center gap-2">
                   <Play className="size-4 fill-[#0B2B1F]" />
                   <span>Resume Lesson</span>
@@ -243,7 +254,7 @@ export default function StudentDashboardPage() {
 
               <div className="pt-3 border-t border-[#30363D] flex items-center justify-between">
                 <span className="text-[11px] text-gray-400">{module.lessonsCount} Lessons</span>
-                <Link href={`/courses/${module.slug}`}>
+                <Link href={`/courses/${module.slug}`} onClick={(e) => handleProtectedAction(e, `start ${module.title}`)}>
                   <Button className="bg-[#154734] hover:bg-[#1E5D46] text-white text-xs px-3 py-1.5 rounded-lg cursor-pointer">
                     Start Module
                   </Button>
@@ -268,7 +279,13 @@ export default function StudentDashboardPage() {
           </div>
 
           <Button
-            onClick={() => setUploadModalOpen(true)}
+            onClick={(e) => {
+              if (!profile?.subscribed) {
+                handleProtectedAction(e, "upload swing videos for PGA feedback");
+              } else {
+                setUploadModalOpen(true);
+              }
+            }}
             className="bg-[#154734] hover:bg-[#1E5D46] text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer border border-[#D4AF37]/40 shadow-md"
           >
             <Upload className="size-4 text-[#D4AF37]" />
@@ -330,6 +347,12 @@ export default function StudentDashboardPage() {
         isOpen={uploadModalOpen}
         onOpenChange={setUploadModalOpen}
         onUploadSuccess={fetchDashboardData}
+      />
+
+      <SubscriptionRequiredModal
+        isOpen={subModalOpen}
+        onOpenChange={setSubModalOpen}
+        actionAttempted={actionAttempted}
       />
     </div>
   );

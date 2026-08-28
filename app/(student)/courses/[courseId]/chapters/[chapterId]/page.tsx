@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { updateChapterProgress } from "@/lib/actions/firestore.actions";
+import SubscriptionRequiredModal from "@/components/student/SubscriptionRequiredModal";
 
 interface VideoTheaterPageProps {
   params: Promise<{
@@ -38,7 +39,8 @@ interface VideoTheaterPageProps {
 export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
   const resolvedParams = use(params);
   const { courseId, chapterId } = resolvedParams;
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const [subModalOpen, setSubModalOpen] = useState(false);
 
   const currentCourse =
     golfModules.find((m) => m.slug === courseId || m.id === courseId) ||
@@ -52,6 +54,10 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
   const activeLesson = currentChapter.lessons[activeLessonIndex] || currentChapter.lessons[0];
 
   const handleCompleteAndNext = async () => {
+    if (!profile?.subscribed) {
+      setSubModalOpen(true);
+      return;
+    }
     if (user) {
       try {
         await updateChapterProgress(user.uid, currentCourse.slug, currentChapter.id, true);
@@ -109,12 +115,39 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Video Theater + Tabs (Col 1-8 / 70%) */}
         <div className="lg:col-span-8 space-y-6">
-          {/* Custom Player */}
-          <CustomVideoTheater
-            lessonTitle={activeLesson.title}
-            thumbnail="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=85"
-            videoUrl="https://videos.pexels.com/video-files/7542066/7542066-uhd_2560_1440_25fps.mp4"
-          />
+          {/* Custom Player with Subscription Lock Overlay if unsubscribed */}
+          <div className="relative group overflow-hidden rounded-3xl">
+            <CustomVideoTheater
+              lessonTitle={activeLesson.title}
+              thumbnail="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1200&q=85"
+              videoUrl="https://videos.pexels.com/video-files/7542066/7542066-uhd_2560_1440_25fps.mp4"
+            />
+
+            {!profile?.subscribed && (
+              <div
+                onClick={() => setSubModalOpen(true)}
+                className="absolute inset-0 bg-black/85 backdrop-blur-md z-20 flex flex-col items-center justify-center text-center p-6 space-y-4 cursor-pointer"
+              >
+                <div className="size-14 rounded-2xl bg-[#154734] border border-[#D4AF37]/60 flex items-center justify-center shadow-xl">
+                  <Lock className="size-7 text-[#D4AF37]" />
+                </div>
+                <div className="space-y-1.5 max-w-md">
+                  <span className="px-3 py-1 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest">
+                    Class Access Restricted
+                  </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                    Subscription Required to Stream Class Video
+                  </h3>
+                  <p className="text-xs text-gray-300">
+                    Active PGA Academy membership is required to attend live class sessions, stream HD video lessons, and interact with drill breakdowns.
+                  </p>
+                </div>
+                <Button className="bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-[#0B2B1F] font-bold text-xs px-6 py-2.5 rounded-xl shadow-lg cursor-pointer">
+                  Activate Membership to Watch
+                </Button>
+              </div>
+            )}
+          </div>
 
           {/* Tabbed Lesson Drawer */}
           <Tabs defaultValue="checkpoints" className="w-full">
@@ -256,7 +289,13 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
               return (
                 <div
                   key={lesson.id}
-                  onClick={() => setActiveLessonIndex(idx)}
+                  onClick={() => {
+                    if (!profile?.subscribed) {
+                      setSubModalOpen(true);
+                    } else {
+                      setActiveLessonIndex(idx);
+                    }
+                  }}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                     isCurrent
                       ? "bg-[#154734] border-[#D4AF37] text-white shadow-md"
@@ -296,6 +335,12 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
           </div>
         </div>
       </div>
+
+      <SubscriptionRequiredModal
+        isOpen={subModalOpen}
+        onOpenChange={setSubModalOpen}
+        actionAttempted="attend this video class lesson"
+      />
     </div>
   );
 }

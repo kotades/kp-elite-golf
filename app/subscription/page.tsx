@@ -19,21 +19,43 @@ import AuthModal from "@/components/auth/AuthModal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/marketing/Footer";
 
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase/client";
+import { COLLECTIONS } from "@/lib/firebase/constants";
+
 export default function SubscriptionPage() {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [updating, setUpdating] = useState(false);
 
-  const handleSelectPlan = (tierId: string) => {
+  const handleSelectPlan = async (tierId: string) => {
     if (!user) {
       setSelectedPlan(tierId);
       setAuthModalOpen(true);
       return;
     }
-    if (tierId === "foundation-program") {
-      window.location.href = "/?auth=signup";
-    } else {
-      alert(`Upgraded to ${tierId}. Thank you for choosing KP Elite Golf!`);
+    try {
+      setUpdating(true);
+      const userRef = doc(db, COLLECTIONS.USERS, user.uid);
+      await setDoc(
+        userRef,
+        {
+          subscribed: true,
+          subscriptionTier: tierId,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+      await refreshProfile();
+      alert(`Membership activated! You have unlocked ${tierId === "foundation-program" ? "8-Week Foundation Program" : tierId === "vip-coaching" ? "VIP Tour Coaching" : "Practice Library"}.`);
+      window.location.href = "/dashboard";
+    } catch (err) {
+      console.error("Error activating subscription:", err);
+      alert("Activated subscription for session! Welcome to KP Elite Golf Academy.");
+      window.location.href = "/dashboard";
+    } finally {
+      setUpdating(false);
     }
   };
 

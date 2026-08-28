@@ -20,9 +20,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { saveSessionHistory } from "@/lib/actions/firestore.actions";
+import SubscriptionRequiredModal from "@/components/student/SubscriptionRequiredModal";
 
 export default function AIVoiceCoachStudioPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const [subModalOpen, setSubModalOpen] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState(aiGolfPersonas[0]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(false);
@@ -70,6 +72,10 @@ export default function AIVoiceCoachStudioPage() {
   };
 
   const toggleCall = async () => {
+    if (!profile?.subscribed) {
+      setSubModalOpen(true);
+      return;
+    }
     if (isSessionActive) {
       await endSession();
       return;
@@ -338,6 +344,12 @@ export default function AIVoiceCoachStudioPage() {
           </div>
         </div>
       </div>
+
+      <SubscriptionRequiredModal
+        isOpen={subModalOpen}
+        onOpenChange={setSubModalOpen}
+        actionAttempted="start an AI Voice Coach studio session"
+      />
     </div>
   );
 }
