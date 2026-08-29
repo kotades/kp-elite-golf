@@ -10,7 +10,7 @@ import {
   CheckCircle2,
   ArrowUpRight,
 } from "lucide-react";
-import { academyInfo, golfModules } from "@/constants";
+import { academyInfo, golfModules, pricingTiers } from "@/constants";
 
 export default function Footer() {
   return (
@@ -131,17 +131,17 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/?auth=signup" className="text-gray-400 hover:text-white">
-                  8-Week Foundation ($7,200)
+                  8-Week Foundation ({pricingTiers[1].price}/mo)
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className="text-gray-400 hover:text-white">
-                  VIP Tour Coaching ($890/mo)
+                  VIP Tour Coaching ({pricingTiers[2].price}/mo)
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className="text-gray-400 hover:text-white">
-                  Practice Video Library ($49/mo)
+                  Practice Video Library ({pricingTiers[0].price}/mo)
                 </Link>
               </li>
               <li>

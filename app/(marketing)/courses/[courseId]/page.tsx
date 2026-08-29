@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { golfModules, coaches } from "@/constants";
+import { golfModules, coaches, pricingTiers } from "@/constants";
 import {
   GraduationCap,
   Clock,
@@ -209,7 +209,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
                 </span>
               </div>
               <p className="text-[11px] text-gray-400">
-                Or included in the 8-Week Foundation ($7,200) & Practice Library ($49/mo).
+                Or included in the 8-Week Foundation ({pricingTiers[1].price}/mo) & Practice Library ({pricingTiers[0].price}/mo).
               </p>
             </div>
 
@@ -221,7 +221,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
               </Link>
               <Link href="/sign-in?plan=practice-library">
                 <Button className="w-full bg-[#1F242C] hover:bg-[#2A313C] text-white border border-[#30363D] text-xs font-semibold py-3 rounded-xl">
-                  Start $49/mo Free Trial
+                  Start {pricingTiers[0].price}/mo Free Trial
                 </Button>
               </Link>
             </div>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { pricingTiers } from "@/constants";
 import {
   Trophy,
   CheckCircle2,
@@ -381,7 +382,7 @@ export default function StudentIntakeApplicationPage() {
                 className="mt-1 size-4 rounded accent-[#D4AF37]"
               />
               <span className="text-xs text-gray-300 leading-relaxed">
-                I understand that the 8-Week Foundation Program ($7,200) requires scheduling commitment and academy cancellation and payment policies apply.
+                I understand that the 8-Week Foundation Program ({pricingTiers[1].price}/mo) requires scheduling commitment and academy cancellation and payment policies apply.
               </span>
             </label>
 

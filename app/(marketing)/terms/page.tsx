@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Trophy, ShieldCheck, FileText, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { pricingTiers } from "@/constants";
 
 export const metadata = {
   title: "Terms of Service & Enrollment Conditions | KP Elite Golf Training",
@@ -41,7 +42,7 @@ export default function TermsPage() {
               1. Acceptance of Terms & Academy Scope
             </h2>
             <p>
-              By accessing the KP Elite Golf Training platform, subscribing to our Practice Video Library ($49/mo), enrolling in the 8-Week Foundation Program ($7,200), or engaging with our 24/7 AI voice coaching models, you agree to be bound by these Terms of Service.
+              By accessing the KP Elite Golf Training platform, subscribing to our Practice Video Library ({pricingTiers[0].price}/mo), enrolling in the 8-Week Foundation Program ({pricingTiers[1].price}/mo), or engaging with our 24/7 AI voice coaching models, you agree to be bound by these Terms of Service.
             </p>
           </section>
 

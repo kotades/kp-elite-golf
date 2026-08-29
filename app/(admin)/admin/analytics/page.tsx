@@ -2,6 +2,7 @@
 
 import React from "react";
 import RevenueAreaChart from "@/components/admin/RevenueAreaChart";
+import { pricingTiers } from "@/constants";
 import {
   TrendingUp,
   DollarSign,
@@ -51,7 +52,7 @@ export default function AdminAnalyticsPage() {
   const recentIntakes = [
     {
       name: "Cameron Smith",
-      program: "8-Week Foundation ($7,200)",
+      program: `8-Week Foundation (${pricingTiers[1].price}/mo)`,
       handicap: "14.2",
       coach: "Kevin Palmer",
       status: "Payment Confirmed",
@@ -59,7 +60,7 @@ export default function AdminAnalyticsPage() {
     },
     {
       name: "Sarah Jenkins",
-      program: "Practice Library ($49/mo)",
+      program: `Practice Library (${pricingTiers[0].price}/mo)`,
       handicap: "22.0",
       coach: "Elena Rostova",
       status: "Trial Active",
@@ -67,7 +68,7 @@ export default function AdminAnalyticsPage() {
     },
     {
       name: "Robert Torres",
-      program: "VIP Coaching ($890/mo)",
+      program: `VIP Coaching (${pricingTiers[2].price}/mo)`,
       handicap: "4.1",
       coach: "David Vance",
       status: "Active Member",

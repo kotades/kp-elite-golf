@@ -127,7 +127,7 @@ export default function PricingPage() {
 
   const faqs = [
     {
-      q: "What makes the $7,200 Foundation Program the gold standard in golf coaching?",
+      q: "What makes the $4,800/mo Foundation Program the gold standard in golf coaching?",
       a: "The 8-Week Foundation Program is a total transformation intensive. You receive 16 private 1-on-1 hour-long sessions with a PGA Master Instructor, high-speed dual radar TrackMan analysis, custom club fitting validation, and 24/7 AI voice practice reinforcement. We guarantee measurable handicap reduction or you receive a full refund.",
     },
     {
@@ -262,13 +262,13 @@ export default function PricingPage() {
                     Curriculum & Features
                   </th>
                   <th className="py-4 px-4 text-center text-gray-300 font-bold uppercase tracking-wider text-xs w-1/5">
-                    Practice Library ($49/mo)
+                    Practice Library ({pricingTiers[0].price}/mo)
                   </th>
                   <th className="py-4 px-4 text-center text-[#D4AF37] font-bold uppercase tracking-wider text-xs w-1/5 bg-[#154734]/30">
-                    Foundation ($7,200)
+                    Foundation ({pricingTiers[1].price}/mo)
                   </th>
                   <th className="py-4 px-4 text-center text-emerald-400 font-bold uppercase tracking-wider text-xs w-1/5">
-                    VIP Coaching ($890/mo)
+                    VIP Coaching ({pricingTiers[2].price}/mo)
                   </th>
                 </tr>
               </thead>

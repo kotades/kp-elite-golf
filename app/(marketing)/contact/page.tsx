@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { pricingTiers } from "@/constants";
 import {
   Trophy,
   Mail,
@@ -215,9 +216,9 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, programOfInterest: e.target.value })}
                       className="w-full rounded-xl bg-[#0D1117] border border-[#30363D] px-4 py-3 text-xs text-white focus:outline-none focus:border-[#D4AF37]"
                     >
-                      <option value="foundation">8-Week Foundation Program ($7,200)</option>
-                      <option value="vip">VIP Tour Coaching ($890/mo)</option>
-                      <option value="library">Practice Video Library ($49/mo)</option>
+                      <option value="foundation">8-Week Foundation Program ({pricingTiers[1].price}/mo)</option>
+                      <option value="vip">VIP Tour Coaching ({pricingTiers[2].price}/mo)</option>
+                      <option value="library">Practice Video Library ({pricingTiers[0].price}/mo)</option>
                       <option value="biomechanics">In-Person Biomechanics Lab Assessment</option>
                       <option value="corporate">Corporate / Team Coaching</option>
                     </select>
