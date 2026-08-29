@@ -316,7 +316,7 @@ export default function VideoTheaterPage({ params }: VideoTheaterPageProps) {
 
                   {lesson.isPreview && (
                     <span className="text-[9px] font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
-                      Free
+                      Sample
                     </span>
                   )}
                 </div>

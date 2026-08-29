@@ -63,7 +63,7 @@ export default function AdminAnalyticsPage() {
       program: `Practice Library (${pricingTiers[0].price}/mo)`,
       handicap: "22.0",
       coach: "Elena Rostova",
-      status: "Trial Active",
+      status: "Active Member",
       date: "5 hours ago",
     },
     {

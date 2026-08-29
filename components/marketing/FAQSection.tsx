@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { testimonials } from "@/constants";
+import { testimonials, pricingTiers } from "@/constants";
 import {
   HelpCircle,
   Trophy,
@@ -16,6 +16,8 @@ import {
   Quote,
   Star,
   CheckCircle,
+  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -148,13 +150,13 @@ export default function FAQSection() {
             </h2>
 
             <p className="text-sm sm:text-base text-gray-300">
-              Join the 8-Week Foundation Program or start your 7-day Practice Library trial today. Step onto the first tee with tour-level confidence.
+              Join the 8-Week Foundation Program or enroll in the Practice Library today. Step onto the first tee with tour-level confidence.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Link href="/?auth=signup">
                 <Button className="w-full sm:w-auto bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-[#0B2B1F] font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-xl hover:scale-105 transition-all cursor-pointer">
-                  Apply for Academy Intake ($7,200)
+                  Apply for Academy Intake ({pricingTiers[1].price}/mo)
                 </Button>
               </Link>
 

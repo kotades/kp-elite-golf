@@ -141,7 +141,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
                           <div className="flex items-center gap-3">
                             {lesson.isPreview && (
                               <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
-                                Free Preview
+                                Sample Lesson
                               </span>
                             )}
                             <span className="font-mono text-gray-400 text-[11px]">{lesson.duration}</span>
@@ -221,7 +221,7 @@ export default async function CourseDetailPage({ params }: CoursePageProps) {
               </Link>
               <Link href="/sign-in?plan=practice-library">
                 <Button className="w-full bg-[#1F242C] hover:bg-[#2A313C] text-white border border-[#30363D] text-xs font-semibold py-3 rounded-xl">
-                  Start {pricingTiers[0].price}/mo Free Trial
+                  Enroll in Practice Library ({pricingTiers[0].price}/mo)
                 </Button>
               </Link>
             </div>
