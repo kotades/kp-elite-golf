@@ -18,8 +18,8 @@ const defaultCompanions = [
     author: "system",
   },
   {
-    id: "tour-pro-elena",
-    name: "Coach Elena (LPGA Tour)",
+    id: "tour-pro-karol",
+    name: "Coach Karol (LPGA Tour)",
     subject: "short-game",
     topic: "30-Yard Bunker Splash & Wedge Matrices",
     voice: "ZIlrSGI4jZqobxRKprJz",
@@ -49,7 +49,7 @@ const defaultCompanions = [
   },
   {
     id: "putting-specialist",
-    name: "Coach Elena (Putting)",
+    name: "Coach Karol (Putting)",
     subject: "putting-mastery",
     topic: "AimPoint Green Reading & Lag Pendulum",
     voice: "ZIlrSGI4jZqobxRKprJz",

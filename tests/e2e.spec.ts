@@ -40,7 +40,7 @@ test.describe("KP Elite Golf Training - Comprehensive End-to-End Test Suite", ()
       const coachesSection = page.locator("#coaches");
       await expect(coachesSection).toBeVisible();
       await expect(page.getByText("Kevin Palmer").first()).toBeVisible();
-      await expect(page.getByText("Elena Rostova").first()).toBeVisible();
+      await expect(page.getByText("Karol Priscila").first()).toBeVisible();
 
       // 6. Verify Course Teaser Strip
       await expect(page.getByText("Curated Core Golf Modules")).toBeVisible();
@@ -316,14 +316,14 @@ test.describe("KP Elite Golf Training - Comprehensive End-to-End Test Suite", ()
       // Verify Title
       await expect(page.getByRole("heading", { level: 1 })).toContainText("Live PGA Biomechanics Voice Coaching");
 
-      // Verify Coach Personas (Kevin, Elena, Marcus)
+      // Verify Coach Personas (Kevin, Karol, Marcus)
       await expect(page.getByText("Coach Kevin").first()).toBeVisible();
-      await expect(page.getByText("Coach Elena").first()).toBeVisible();
+      await expect(page.getByText("Coach Karol").first()).toBeVisible();
       await expect(page.getByText("Coach Marcus").first()).toBeVisible();
 
-      // Switch to Elena Rostova
-      await page.getByRole("button", { name: /Coach Elena/i }).click();
-      await expect(page.getByRole("heading", { level: 3 })).toContainText("Coach Elena");
+      // Switch to Karol Priscila
+      await page.getByRole("button", { name: /Coach Karol/i }).click();
+      await expect(page.getByRole("heading", { level: 3 })).toContainText("Coach Karol");
 
       // Verify Mic Call Button
       const micBtn = page.locator("button.size-16.rounded-full");

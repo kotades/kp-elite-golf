@@ -31,7 +31,7 @@ test.describe('Mobile Responsiveness & Visual Layout Suite', () => {
     await page.waitForLoadState('domcontentloaded');
 
     await expect(page.getByText('Kevin Palmer').first()).toBeVisible();
-    await expect(page.getByText('Elena Rostova').first()).toBeVisible();
+    await expect(page.getByText('Karol Priscila').first()).toBeVisible();
     await expect(page.getByText('Marcus Sterling').first()).toBeVisible();
   });
 });

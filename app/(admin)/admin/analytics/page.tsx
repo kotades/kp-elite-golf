@@ -62,7 +62,7 @@ export default function AdminAnalyticsPage() {
       name: "Sarah Jenkins",
       program: `Practice Library (${pricingTiers[0].price}/mo)`,
       handicap: "22.0",
-      coach: "Elena Rostova",
+      coach: "Karol Priscila",
       status: "Active Member",
       date: "5 hours ago",
     },

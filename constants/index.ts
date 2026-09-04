@@ -194,12 +194,12 @@ export const academyInfo = {
 
 export const coaches: Coach[] = [
   {
-    id: "coach-elena",
-    name: "Elena Rostova",
+    id: "coach-karol",
+    name: "Karol Priscila",
     title: "Head LPGA Master Coach & Lead Instructor",
     credentials: ["LPGA Class A", "AimPoint Certified Green Reader", "TPI Level 3 Certified"],
     specialty: "Precision Short Game, Wedge Matrices & Full Swing Biomechanics",
-    image: "/coaches/coach-1-elena-head-lpga.jpg",
+    image: "/coaches/coach-1-karol-head-lpga.jpg",
     bio: "Former LPGA Tour winner and Head Instructor specializing in up-and-down conversion rate optimization, 3D kinematic sequencing, and pressure putting routines.",
     tourExperience: "8 LPGA Tour seasons, 2 top-10 major finishes, Lead Coach",
     handicapSpecialty: "Short game confidence & tour-level scoring precision",
@@ -699,7 +699,7 @@ export const testimonials: Testimonial[] = [
     handicapDrop: "12.1 → 5.4",
     program: "8-Week Foundation",
     milestone: "Short-Game Certified",
-    quote: "Coach Elena's wedge matrix and the 3-position clock drill saved me 6 strokes per round inside 80 yards alone. The investment paid for itself ten times over.",
+    quote: "Coach Karol's wedge matrix and the 3-position clock drill saved me 6 strokes per round inside 80 yards alone. The investment paid for itself ten times over.",
     image: "/coaches/coach-3.jpg",
     homeClub: "Pinehurst Resort & CC",
     status: "Short-game certified",
@@ -744,14 +744,14 @@ export const aiGolfPersonas: AIVoicePersona[] = [
     Keep answers under 3 sentences unless the golfer asks for a detailed drill breakdown.`,
   },
   {
-    id: "tour-pro-elena",
-    name: "Coach Elena (LPGA Tour)",
+    id: "tour-pro-karol",
+    name: "Coach Karol (LPGA Tour)",
     role: "Short Game & Putting Strategist",
     voiceId: "ZIlrSGI4jZqobxRKprJz",
-    avatar: "/coaches/coach-1-elena-head-lpga.jpg",
+    avatar: "/coaches/coach-1-karol-head-lpga.jpg",
     specialty: "Up-and-Downs, Wedges & Putting",
-    welcomeMessage: "Hi there! Coach Elena here. Let's dial in your scoring clubs. Are we working on chipping, bunker play, or lag putting?",
-    prompt: `You are Coach Elena Rostova, LPGA Master Coach and former tour winner specializing in short game precision, bunker play, and putting mechanics.
+    welcomeMessage: "Hi there! Coach Karol here. Let's dial in your scoring clubs. Are we working on chipping, bunker play, or lag putting?",
+    prompt: `You are Coach Karol Priscila, LPGA Master Coach and former tour winner specializing in short game precision, bunker play, and putting mechanics.
     Your tone is supportive, precise, insightful, and focused on feel and bounce physics.
     Give actionable tips on landing spots, trajectory control, and pre-putt routines.
     Keep responses short, engaging, and clear for real-time practice.`,
@@ -822,7 +822,7 @@ export const recentSessions = [
   {
     id: "2",
     subject: "short-game",
-    name: "Coach Elena (LPGA)",
+    name: "Coach Karol (LPGA)",
     topic: "30-Yard Bunker Splash & Spin Control",
     duration: 25,
     color: "#154734",

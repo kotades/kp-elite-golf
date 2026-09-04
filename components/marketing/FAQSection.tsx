@@ -30,7 +30,7 @@ export default function FAQSection() {
     },
     {
       q: "How does the 24/7 AI Voice Range Coach work?",
-      a: "Simply open the mobile companion app on your phone, insert your wireless earbuds, and select your AI coach (e.g. Coach Kevin or Coach Elena). As you practice on the range or putting green, ask questions naturally about club choice, ball flight fixes, or drill steps, and receive instantaneous coaching feedback in under 400 milliseconds.",
+      a: "Simply open the mobile companion app on your phone, insert your wireless earbuds, and select your AI coach (e.g. Coach Kevin or Coach Karol). As you practice on the range or putting green, ask questions naturally about club choice, ball flight fixes, or drill steps, and receive instantaneous coaching feedback in under 400 milliseconds.",
     },
     {
       q: "What equipment or experience level do I need before starting?",
